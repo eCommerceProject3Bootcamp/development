@@ -123,10 +123,6 @@ class Dashboard extends React.Component {
         this.setState({ anchorEl: null });
     };
 
-    handleLoginButton = (event, target) => {
-        console.log(event.target, target);
-    }
-
     render() {
         const { classes } = this.props;
         const { auth, anchorEl } = this.state;
@@ -171,7 +167,6 @@ class Dashboard extends React.Component {
                                         handleLoginMenu={this.handleLoginMenu}
                                         handleLoginChange={this.handleLoginChange}
                                         handleLoginClose={this.handleLoginClose}
-                                        handleLoginButton={this.handleLoginButton}
                                     />
 
 
