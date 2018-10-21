@@ -15,6 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
+import {Login} from './Login';
 
 const drawerWidth = 240;
 
@@ -98,6 +99,8 @@ const styles = theme => ({
 class Dashboard extends React.Component {
     state = {
         open: true,
+        auth: true,
+        anchorEl: null,
     };
 
     handleDrawerOpen = () => {
@@ -108,18 +111,36 @@ class Dashboard extends React.Component {
         this.setState({ open: false });
     };
 
+    handleLoginChange = event => {
+        this.setState({ auth: event.target.checked });
+    };
+
+    handleLoginMenu = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+
+    handleLoginClose = () => {
+        this.setState({ anchorEl: null });
+    };
+
+    handleLoginButton = (event, target) => {
+        console.log(event.target, target);
+    }
+
     render() {
         const { classes } = this.props;
-
+        const { auth, anchorEl } = this.state;
         return (
             <React.Fragment>
                 <CssBaseline />
                 <div className={classes.root}>
+
                     <AppBar
                         position="absolute"
                         className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
                         >
                             <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
+
                                 <IconButton
                                     color="inherit"
                                     aria-label="Open drawer"
@@ -131,6 +152,7 @@ class Dashboard extends React.Component {
                                     >
                                         <MenuIcon />
                                     </IconButton>
+
                                     <Typography
                                         component="h1"
                                         variant="h6"
@@ -140,6 +162,19 @@ class Dashboard extends React.Component {
                                         >
                                             Dashboard
                                         </Typography>
+
+
+
+                                    <Login
+                                        auth={auth}
+                                        anchorEl={anchorEl}
+                                        handleLoginMenu={this.handleLoginMenu}
+                                        handleLoginChange={this.handleLoginChange}
+                                        handleLoginClose={this.handleLoginClose}
+                                        handleLoginButton={this.handleLoginButton}
+                                    />
+
+
 
                                     </Toolbar>
                                 </AppBar>
@@ -163,7 +198,7 @@ class Dashboard extends React.Component {
                                     <main className={classes.content}>
                                         <div className={classes.appBarSpacer} />
                                         <Typography variant="h4" gutterBottom component="h2">
-                                            Orders
+                                            {/* Orders */}
                                         </Typography>
                                         <Typography component="div" className={classes.chartContainer}>
                                             {/* Seems like component // applets can go here */}
@@ -171,7 +206,7 @@ class Dashboard extends React.Component {
 
                                         </Typography>
                                         <Typography variant="h4" gutterBottom component="h2">
-                                            Products
+                                            {/* Products */}
                                         </Typography>
                                         <div className={classes.tableContainer}>
                                             {/* Seems like component // applets can go here */}
