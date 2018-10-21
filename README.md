@@ -1,29 +1,39 @@
-# Create React Express App
+# eCommerce React Development (Project 3)
 
-## About This Boilerplate
+A boilerplate eCommerce site, designed for ease of use for the customer, and streamlined administrator // owner tools
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+****
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+**Installation Instructions**
 
-## Starting the app locally
+1. Get neccessary files / dependencies
+    * git clone this repository.
+    * Navigate to this code's location in terminal, and type `yarn`.
+2. Generate neccessary environment files -- "**config.json**, **.env**"
+    * Navigate to the base folder (This is the folder *outside* of `/client`)
+    * Type `sequelize init:config` in the terminal (Note, if this fails, you need to type `npm i -g sequelize-cli`, then retry)
+    * You will now see a `/config` folder, and its contents will be a single file, `config.json`, change the contents of this file to match the development MySQL Database you are using.
+    * **[.env](#.env)**
+    *  **[Config](#config.json)**
+****
+`The info in these formats, can be found on the shared Google Sheets, refer to slack channel pinned items.`
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
-
+## What these will look like:
+# config.json
 ```
-yarn install
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "database_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  ...etc...
+}
 ```
 
-This should install node modules within the server and the client folder.
-
-After both installations complete, run the following command in your terminal:
-
+# .env
 ```
-yarn start
+REACT_APP_EXAMPLE_API_KEY=<...key goes here>
 ```
-
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
-
-## Deployment (Heroku)
-
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
