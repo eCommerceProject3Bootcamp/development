@@ -9,6 +9,9 @@ A boilerplate eCommerce site, designed for ease of use for the customer, and str
 1. Get neccessary files / dependencies
     * git clone this repository.
     * Navigate to this code's location in terminal, and type `yarn`.
+    * Once neccessary files are installed, type `npm i -g concurrently`, this will install an NPM package that allows us to run express and react at the same time.
+    * If you don't already have it, also type `npm i -g nodemon`, this is ncessary because our yarn start scripts use it.
+    * I have been experiencing a minor bug with the package.json, if you receive an error after everything is done, type `yarn add react react-dom`, that should fix it.
 2. Generate neccessary environment files -- "**config.json**, **.env**"
     * Navigate to the base folder (This is the folder *outside* of `/client`)
     * Type `sequelize init:config` in the terminal (Note, if this fails, you need to type `npm i -g sequelize-cli`, then retry)
