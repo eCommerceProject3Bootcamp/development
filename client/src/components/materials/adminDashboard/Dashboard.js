@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core'
 import {ChevronLeft as ChevronLeftIcon, Menu as MenuIcon} from '@material-ui/icons';
 import {mainListItems, secondaryListItems} from './listItems';
-import {Login} from './Login';
+import {Login} from '../Login';
 
 class Dashboard extends React.Component {
     state = {
