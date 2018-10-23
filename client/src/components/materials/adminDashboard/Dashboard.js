@@ -56,7 +56,7 @@ class Dashboard extends React.Component {
                 <AppBar position="absolute" className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
                     <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
 
-                        <IconButton color="inherit" aria-label="Open drawer" onClick={this.handleDrawerOpen} className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden,)}>
+                        <IconButton color="inherit" aria-label="Open drawer" onClick={this.handleDrawerOpen} className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}>
                             <MenuIcon/>
                         </IconButton>
 
