@@ -1,6 +1,7 @@
 const drawerWidth = 240;
 
 export const styles = theme => ({
+    // "theme" can be anything that is passed as the second argument in withStyles(styles)(component). I.E. withStyles(styles, randomTheme)(component). Otherwise it is a default one used by material UI.
     root: {
         display: 'flex'
     },

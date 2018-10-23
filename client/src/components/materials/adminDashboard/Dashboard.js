@@ -46,6 +46,7 @@ class Dashboard extends React.Component {
     };
 
     render() {
+        // This is how we access the "styles", from dashboardStyles.js. This is because we use the material-ui "withStyles(styles)(Dashboard)" function. our "props" here, is classes.
         const {classes} = this.props;
         const {auth, anchorEl} = this.state;
         return (<React.Fragment>
