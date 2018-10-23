@@ -15,7 +15,7 @@ import {
     CssBaseline
 } from '@material-ui/core'
 import {ChevronLeft as ChevronLeftIcon, Menu as MenuIcon} from '@material-ui/icons';
-import {mainListItems, secondaryListItems} from './listItems';
+import {mainListItems, secondaryListItems} from './drawerItems';
 import {Login} from '../Login';
 
 class Dashboard extends React.Component {
@@ -84,14 +84,18 @@ class Dashboard extends React.Component {
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer}/>
                     <Typography variant="h4" gutterBottom="gutterBottom" component="h2">
-                        {/* Orders */}
+                        Placeholder
                     </Typography>
                     <Typography component="div" className={classes.chartContainer}>
-                        {/* Seems like component // applets can go here */}
-
+                        {/* This is a placeholder */}
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                     </Typography>
+                    <Divider />
                     <Typography variant="h4" gutterBottom="gutterBottom" component="h2">
-                        {/* Products */}
+                        Add Listing
                     </Typography>
                     <div className={classes.tableContainer}>
                         {/* Seems like component // applets can go here */}
