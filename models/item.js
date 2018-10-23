@@ -1,13 +1,13 @@
 module.exports = function(sequelize, DataTypes) {
-  let Post = sequelize.define("Post", {
-    title: {
+  let Item = sequelize.define("item", {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [1]
       }
     },
-    body: {
+    description: {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
@@ -16,8 +16,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     category: {
       type: DataTypes.STRING,
-      defaultValue: "Personal"
+      defaultValue: "Electronics"
     }
   });
-  return Post;
+  return Item;
 };
