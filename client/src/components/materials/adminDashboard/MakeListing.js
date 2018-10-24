@@ -28,7 +28,9 @@ class MakeListing extends Component {
         this.setState({[name]: event.target.value});
     };
 
-    handleImageUpload = event => {};
+    handleFileUpload = (selectorFiles: FileList) => {
+		console.log(selectorFiles)
+	};
 
     formSubmit = event => {
         event.preventDefault();
@@ -56,7 +58,7 @@ class MakeListing extends Component {
                             <Grid item="item" xs="xs">
                                 <input accept="image/*" className={classes.input} style={{
                                         display: "none"
-                                    }} id="file-upload" multiple="multiple" type="file"/>
+                                    }} id="file-upload" multiple="multiple" type="file" onChange={(e) => this.handleFileUpload(e.target.files)}/>
                                 <label htmlFor="file-upload" ref={x => this._inputLabel = x}>
                                     <Button onClick={() => this._chooseFileClick()}>
                                         <AddIcon/>
