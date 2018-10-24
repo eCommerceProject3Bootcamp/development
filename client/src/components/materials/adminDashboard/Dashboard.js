@@ -92,7 +92,7 @@ class Dashboard extends React.Component {
                         </IconButton>
 
                         <Typography component="h1" variant="h6" color="inherit" noWrap="noWrap" className={classes.title}>
-                            Dashboard
+                            Placeholder
                         </Typography>
 
                         <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} handleLoginClose={this.handleLoginClose}/>
@@ -127,14 +127,11 @@ class Dashboard extends React.Component {
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer}/>
                     <Typography variant="h4" gutterBottom="gutterBottom" component="h2">
-                        Placeholder
+                        {/* Placeholder */}
                     </Typography>
                     <Typography component="div" className={classes.chartContainer}>
                         {/* This is a placeholder */}
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
+
                     </Typography>
                     <Divider />
                     <Typography variant="h4" gutterBottom="gutterBottom" component="h2">

@@ -17,10 +17,14 @@ app.use(routes);
 
 // Connect to the Sequelize DB
 
-// Start the API server
+// Start the API server WITH db
 
-db.sequelize.sync().then(function() {
-  app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
-  });
-});
+// db.sequelize.sync().then(function() {
+//   app.listen(PORT, function() {
+//     console.log("App listening on PORT " + PORT);
+//   });
+// });
+
+// Start the server WITHOUT db
+
+app.listen(PORT, ()=>console.log(`App listening on PORT ${PORT}`));
