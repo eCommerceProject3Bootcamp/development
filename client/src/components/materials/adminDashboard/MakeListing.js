@@ -1,46 +1,94 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {AttachFile as AttachFileIcon, Menu as MenuIcon, Add as AddIcon, Done as DoneIcon} from '@material-ui/icons';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
-    IconButton,
-    Divider,
-    Typography,
-    Grid,
-    MenuItem,
-    TextField
-} from '@material-ui/core';
+  AttachFile as AttachFileIcon,
+  Menu as MenuIcon,
+  Add as AddIcon,
+  Done as DoneIcon
+} from "@material-ui/icons";
+import {
+  IconButton,
+  Divider,
+  Typography,
+  Grid,
+  MenuItem,
+  TextField,
+  FormGroup,
+  Button
+} from "@material-ui/core";
 
-import classNames from 'classnames';
-import {withStyles} from '@material-ui/core/styles';
-import {styles} from './makeListingStyles';
+import classNames from "classnames";
+import { withStyles } from "@material-ui/core/styles";
+import { styles } from "./makeListingStyles";
 
 class MakeListing extends Component {
-    state = {
-        'thumbnails': [],
-        'pictures': [],
-        'description': "",
-        'name': ""
-    }
+  state = {
+    thumbnails: [],
+    pictures: [],
+    description: "",
+    name: ""
+  };
 
-    handleTextFieldChange = name => event => {
-        this.setState({[name]: event.target.value}).then(()=>console.log(this.state));
-    }
+  handleTFChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    });
+  };
 
-    render() {
-        const {classes} = this.props;
-        return (<Grid container="container" className={classes.root} spacing={16}>
-            <Grid item="item" xs={12}>
-                <Grid container="container" justify="center" spacing={20}>
-                    <TextField onChange={this.handleTextFieldChange('name')} required="required" id="listing-name" label="Name" className={classes.textField} margin="normal"/>
-                    <TextField onChange={this.handleTextFieldChange('description')} multiline rowsMax="4" required="required" id="listing-description" label="Description" className={classes.textField} margin="normal"/> {/* <TextField required="required" id="listing-tags" label="Required" defaultValue="Hello World" className={classes.textField} margin="normal"/> */}
+  formSubmit = event => {
+    event.preventDefault();
+    console.log(event);
+  };
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <Grid container className={classes.root} spacing={16}>
+        <Grid item="item" xs={12}>
+          <Grid container justify="center" spacing={20}>
+            <form onSubmit={this.formSubmit()}>
+              <FormGroup>
+                <Grid item xs={4}>
+                  <TextField
+                    onChange={this.handleTFChange("name")}
+                    required
+                    id="listing-name"
+                    label="Name"
+                    className={classes.textField}
+                    margin="normal"
+                  />
                 </Grid>
-            </Grid>
-        </Grid>)
-    }
+                <Grid item xs>
+                  <TextField
+                    onChange={this.handleTFChange("description")}
+                    multiline
+                    rowsMax="4"
+                    required
+                    id="listing-description"
+                    label="Description"
+                    className={classes.textField}
+                    margin="normal"
+                  />{" "}
+                  {/* <TextField required="required" id="listing-tags" label="Required" defaultValue="Hello World" className={classes.textField} margin="normal"/> */}
+                </Grid>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  className={classes.button}
+                >
+                  Submit
+                </Button>
+              </FormGroup>
+            </form>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  }
 }
 
 MakeListing.propTypes = {
-    classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(MakeListing);
