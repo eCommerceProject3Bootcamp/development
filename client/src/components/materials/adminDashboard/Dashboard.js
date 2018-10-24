@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {withStyles} from '@material-ui/core/styles';
-import {styles} from './dashboardStyles';
+import {
+    withStyles
+} from '@material-ui/core/styles';
+import {
+    styles
+} from './dashboardStyles';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import {
     IconButton,
@@ -12,11 +16,23 @@ import {
     Toolbar,
     AppBar,
     Drawer,
-    CssBaseline
+    CssBaseline,
+    FormGroup,
+    FormControlLabel,
+    Switch
 } from '@material-ui/core'
-import {ChevronLeft as ChevronLeftIcon, Menu as MenuIcon} from '@material-ui/icons';
-import {mainListItems, secondaryListItems} from './drawerItems';
-import {Login} from '../Login';
+import {
+    ChevronLeft as ChevronLeftIcon,
+    Menu as MenuIcon
+} from '@material-ui/icons';
+import {
+    mainListItems,
+    secondaryListItems
+} from './drawerItems';
+import MakeListing from './MakeListing';
+import {
+    Login
+} from '../Login';
 
 class Dashboard extends React.Component {
     state = {
@@ -26,30 +42,45 @@ class Dashboard extends React.Component {
     };
 
     handleDrawerOpen = () => {
-        this.setState({open: true});
+        this.setState( {
+            open: true
+        } );
     };
 
     handleDrawerClose = () => {
-        this.setState({open: false});
+        this.setState( {
+            open: false
+        } );
     };
 
     handleLoginChange = event => {
-        this.setState({auth: event.target.checked});
+        this.setState( {
+            auth: event.target.checked
+        } );
     };
 
     handleLoginMenu = event => {
-        this.setState({anchorEl: event.currentTarget});
+        this.setState( {
+            anchorEl: event.currentTarget
+        } );
     };
 
     handleLoginClose = () => {
-        this.setState({anchorEl: null});
+        this.setState( {
+            anchorEl: null
+        } );
     };
 
     render() {
         // This is how we access the "styles", from dashboardStyles.js. This is because we use the material-ui "withStyles(styles)(Dashboard)" function. our "props" here, is classes.
-        const {classes} = this.props;
-        const {auth, anchorEl} = this.state;
-        return (<React.Fragment>
+        const {
+            classes
+        } = this.props;
+        const {
+            auth,
+            anchorEl
+        } = this.state;
+        return ( <React.Fragment>
             <CssBaseline/>
             <div className={classes.root}>
 
@@ -64,7 +95,19 @@ class Dashboard extends React.Component {
                             Dashboard
                         </Typography>
 
-                        <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} handleLoginChange={this.handleLoginChange} handleLoginClose={this.handleLoginClose}/>
+                        <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} handleLoginClose={this.handleLoginClose}/>
+
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                    checked = {auth}
+                                    onChange = {this.handleLoginChange}
+                                    aria-label = "LoginSwitch" />
+                                }
+                                color="inherit" label="(testing) Login"/>
+                        </FormGroup>
+
 
                     </Toolbar>
                 </AppBar>
@@ -79,7 +122,7 @@ class Dashboard extends React.Component {
                     <Divider/>
                     <List>{mainListItems}</List>
                     <Divider/>
-                    <List>{secondaryListItems}</List>
+                    {/* <List>{secondaryListItems}</List> */}
                 </Drawer>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer}/>
@@ -99,11 +142,11 @@ class Dashboard extends React.Component {
                     </Typography>
                     <div className={classes.tableContainer}>
                         {/* Seems like component // applets can go here */}
-
+                        <MakeListing />
                     </div>
                 </main>
             </div>
-        </React.Fragment>);
+        </React.Fragment> );
     }
 }
 
@@ -111,4 +154,4 @@ Dashboard.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Dashboard);
+export default withStyles( styles )( Dashboard );

@@ -1,12 +1,8 @@
 export const styles = theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    margin: {
-        margin: theme.spacing.unit,
-    },
-    textField: {
-        flexBasis: 200,
-    },
+  root: {
+    flexGrow: 1,
+  },
+  control: {
+    padding: theme.spacing.unit * 2,
+  },
 });

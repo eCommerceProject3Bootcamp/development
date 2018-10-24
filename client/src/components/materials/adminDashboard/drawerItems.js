@@ -1,15 +1,19 @@
 import React from 'react';
-import {ListSubheader, ListItemText, ListItemIcon, ListItem} from '@material-ui/core';
+import {
+    ListSubheader,
+    ListItemText,
+    ListItemIcon,
+    ListItem
+} from '@material-ui/core';
 import {
     Assignment,
-    Layers,
     BarChart,
     People,
     ShoppingCart,
     Dashboard as DashboardIcon
 } from '@material-ui/icons';
 
-export const mainListItems = (<div>
+export const mainListItems = ( <div>
     <ListItem button="button">
         <ListItemIcon>
             <DashboardIcon/>
@@ -34,15 +38,9 @@ export const mainListItems = (<div>
         </ListItemIcon>
         <ListItemText primary="Reports"/>
     </ListItem>
-    <ListItem button="button">
-        <ListItemIcon>
-            <Layers/>
-        </ListItemIcon>
-        <ListItemText primary="Integrations"/>
-    </ListItem>
-</div>);
+</div> );
 
-export const secondaryListItems = (<div>
+export const secondaryListItems = ( <div>
     <ListSubheader inset="inset">Saved reports</ListSubheader>
     <ListItem button="button">
         <ListItemIcon>
@@ -62,4 +60,4 @@ export const secondaryListItems = (<div>
         </ListItemIcon>
         <ListItemText primary="Year-end sale"/>
     </ListItem>
-</div>);
+</div> );
