@@ -1,6 +1,6 @@
 import React from 'react';
 import Dashboard from './components/materials/adminDashboard/Dashboard';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Test from './components/test';
 const App = () => (
     <Router>
