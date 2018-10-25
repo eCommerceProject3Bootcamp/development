@@ -1,7 +1,9 @@
 const db = require('../models');
 
+const sharp = require('sharp');
+
 module.exports = {
-	imgTest: (req, res) => {
-		res.json({ test: 'TEST' });
+	imgResize: function(req, res) {
+		console.log(req.files);
 	},
 };

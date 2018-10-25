@@ -1,25 +1,31 @@
 const express = require('express');
 const routes = require('./routes');
 const app = express();
+const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3001;
 const db = require('./models');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
+
+let options = {
+	json: { limit: '50mb', extended: true },
+	urlencoded: { limit: '50mb', extended: true, parameterLimit: '1000000' },
+};
 
 // Define middleware here
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(bodyParser.json(options.json));
+app.use(bodyParser.urlencoded(options.urlencoded));
+app.use(cors());
+app.use(fileUpload());
+app.use(routes);
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
 }
 
-//Access control headers????
-
-app.use(cors());
-
 // Add routes
-
-app.use(routes);
 
 // Connect to the Sequelize DB Start the API server WITH db
 db.sequelize.sync().then(function() {
