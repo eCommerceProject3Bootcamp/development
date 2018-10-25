@@ -22,7 +22,7 @@ class MakeListing extends Component {
 		await this.setState(state => {
 			let pics = state.pictures;
 			selectorFiles = Array.from(selectorFiles).filter(eachFile => {
-				const names = pics.map(pics => pics.trueName);
+				const names = pics.map(pics => pics.name);
 				return !names.includes(eachFile.name);
 			});
 			pics.push(...selectorFiles);
