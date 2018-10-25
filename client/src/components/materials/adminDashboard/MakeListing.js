@@ -29,9 +29,9 @@ class MakeListing extends Component {
 			return { pictures: pics };
 		});
 		let formData = new FormData();
-		this.state.pictures.forEach(eachPic =>
-			formData.append('pics', eachPic)
-		);
+		for (let x of this.state.pictures) {
+			formData.append('pics', x);
+		}
 		const response = await axios.post(
 			'http://localhost:3001/api/images/upload',
 			formData
