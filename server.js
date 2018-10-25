@@ -28,11 +28,10 @@ if (process.env.NODE_ENV === 'production') {
 // Add routes
 
 // Connect to the Sequelize DB Start the API server WITH db
-// db.sequelize.sync().then(function() {
-// 	app.listen(PORT, function() {
-// 		console.log('App listening on PORT ' + PORT);
-// 	});
-// });
+db.sequelize.sync().then(function() {
+    app.listen(PORT, function() {
+        console.log('App listening on PORT ' + PORT);
+    });
+});
 // server WITHOUT db
-app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
-// app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`))
+// app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
