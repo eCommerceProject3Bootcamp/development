@@ -1,12 +1,30 @@
 export const styles = theme => ({
     root: {
-        display: 'flex',
-        flexWrap: 'wrap',
+        flexGrow: 1,
     },
-    margin: {
-        margin: theme.spacing.unit,
+    topMargin: {
+        paddingTop: theme.spacing.unit * 5,
+    },
+    control: {
+        padding: theme.spacing.unit * 2,
     },
     textField: {
-        flexBasis: 200,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 400,
+    },
+    inputFile: {
+        width: theme.spacing.unit * 0.1,
+        height: theme.spacing.unit * 0.1,
+        opacity: 0,
+        overflow: 'hidden',
+        position: 'absolute',
+        zIndex: -1,
+    },
+    card: {
+        maxWidth: 345,
+    },
+    media: {
+        height: 140,
     },
 });

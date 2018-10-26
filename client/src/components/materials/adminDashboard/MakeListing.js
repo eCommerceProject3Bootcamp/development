@@ -1,141 +1,97 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Grid, Typography } from '@material-ui/core';
+// import classNames from "classnames";
 import { withStyles } from '@material-ui/core/styles';
-import {MenuItem, TextField, InputAdornment, IconButton} from '@material-ui/core';
-import {Visibility, VisibilityOff} from '@material-ui/icons';
-import {styles} from './makeListingStyles';
-
-const ranges = [
-    {
-        value: '0-20',
-        label: '0 to 20',
-    },
-    {
-        value: '21-50',
-        label: '21 to 50',
-    },
-    {
-        value: '51-100',
-        label: '51 to 100',
-    },
-];
-
-class FilledInputAdornments extends React.Component {
+import { styles } from './makeListingStyles';
+import axios from 'axios';
+import ListingInput from './ListingInput';
+import Listing from './Listing';
+class MakeListing extends Component {
     state = {
-        amount: '',
-        password: '',
-        weight: '',
-        weightRange: '',
-        showPassword: false,
+        primaryImagePreview: '',
+        thumbnails: [],
+        pictures: [],
+        description: '',
+        name: '',
     };
 
-    handleChange = prop => event => {
-        this.setState({ [prop]: event.target.value });
+    handleTextChange = name => event => {
+        this.setState({ [name]: event.target.value });
     };
 
-    handleClickShowPassword = () => {
-        this.setState(state => ({ showPassword: !state.showPassword }));
+    handleMakeImagePreview = event => {
+        event.preventDefault();
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        reader.onloadend = () => {
+            if (this.state.primaryImagePreview === '') {
+                this.setState({ primaryImagePreview: reader.result });
+            }
+            this.setState(prevState => {
+                let { pictures } = prevState;
+                !pictures.includes(file) && pictures.push(file);
+                return prevState;
+            });
+        };
+
+        reader.readAsDataURL(file);
     };
+
+    formSubmit = async event => {
+        event.preventDefault();
+
+        // This generates thumbnails, and brings them back... though we don't really need this. Legacy code from when I didn't know what I was doing, though it's helpful to read then rewrite
+        let formData = new FormData();
+        for (let x of this.state.pictures) {
+            formData.append('pics', x);
+        }
+        try {
+            const response = await axios.post('http://localhost:3001/api/images/upload', formData);
+            console.log(response);
+            this.setState(state => {
+                let { thumbnails } = state;
+                let newThumbnails = response.data.map(eachPic => {
+                    return eachPic.bitmap.data;
+                });
+                thumbnails.push(...newThumbnails);
+                return { thumbnails: thumbnails };
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    _chooseFileClick() {
+        setTimeout(() => {
+            this._inputLabel.click();
+        }, 250);
+    }
 
     render() {
         const { classes } = this.props;
-
+        const { description, name, thumbnails, pictures, primaryImagePreview } = this.state;
         return (
-            <div className={classes.root}>
-                <TextField
-                    id="filled-simple-start-adornment"
-                    className={classNames(classes.margin, classes.textField)}
-                    variant="filled"
-                    label="With filled TextField"
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment variant="filled" position="start">
-                                Kg
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-                <TextField
-                    select
-                    className={classNames(classes.margin, classes.textField)}
-                    variant="filled"
-                    label="With Select"
-                    value={this.state.weightRange}
-                    onChange={this.handleChange('weightRange')}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment variant="filled" position="start">
-                                Kg
-                            </InputAdornment>
-                        ),
-                    }}
-                    >
-                        {ranges.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField
-                        id="filled-adornment-amount"
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="filled"
-                        label="Amount"
-                        value={this.state.amount}
-                        onChange={this.handleChange('amount')}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment variant="filled" position="start">
-                                    $
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <TextField
-                        id="filled-adornment-weight"
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="filled"
-                        label="Weight"
-                        value={this.state.weight}
-                        onChange={this.handleChange('weight')}
-                        helperText="Weight"
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment variant="filled" position="end">
-                                    Kg
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <TextField
-                        id="filled-adornment-password"
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="filled"
-                        type={this.state.showPassword ? 'text' : 'password'}
-                        label="Password"
-                        value={this.state.password}
-                        onChange={this.handleChange('password')}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment variant="filled" position="end">
-                                    <IconButton
-                                        aria-label="Toggle password visibility"
-                                        onClick={this.handleClickShowPassword}
-                                        >
-                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </div>
-                );
-            }
-        }
+            <Grid container justify="space-evenly" spacing={24} className={classes.topMargin}>
+                <Grid item xs={4}>
+                    <Typography variant="h2" gutterBottom>
+                        Add Listing
+                    </Typography>
+                    <ListingInput handleTextChange={this.handleTextChange} formSubmit={this.formSubmit} classes={classes} handleMakeImagePreview={this.handleMakeImagePreview} />
+                </Grid>
+                <Grid item xs={4}>
+                    <Typography variant="h2" gutterBottom>
+                        Preview
+                    </Typography>
+                    <Listing name={name} description={description} pictures={pictures} thumbnails={thumbnails} classes={classes} primaryImagePreview={primaryImagePreview} />
+                </Grid>
+            </Grid>
+        );
+    }
+}
 
-        FilledInputAdornments.propTypes = {
-            classes: PropTypes.object.isRequired,
-        };
+MakeListing.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
-        export default withStyles(styles)(FilledInputAdornments);
+export default withStyles(styles)(MakeListing);
