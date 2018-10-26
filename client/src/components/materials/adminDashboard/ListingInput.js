@@ -9,14 +9,14 @@ class ListingInput extends Component {
         }, 250);
     }
     render(props) {
-        const { handleTextChange, formSubmit, classes, handleFileUpload } = this.props;
+        const { handleTextChange, formSubmit, classes, handleMakeImagePreview } = this.props;
         return (
             <form onSubmit={e => formSubmit(e)}>
                 <Grid item xs={12}>
                     <TextField onChange={handleTextChange('name')} required id="listing-name" label="Name" className={classes.textField} margin="normal" />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField onChange={handleTextChange('description')} multiline rowsMax="4" required id="listing-description" label="Description" className={classes.textField} margin="normal" />
+                    <TextField onChange={handleTextChange('description')} multiline required id="listing-description" label="Description" className={classes.textField} margin="normal" />
                 </Grid>
                 <Grid item xs={12}>
                     <input
@@ -28,7 +28,7 @@ class ListingInput extends Component {
                         multiple
                         type="file"
                         accept="image/*"
-                        onChange={e => handleFileUpload(e)}
+                        onChange={e => handleMakeImagePreview(e)}
                     />
                     <label htmlFor="file-upload" ref={x => (this._inputLabel = x)}>
                         <Button onClick={() => this._chooseFileClick()}>

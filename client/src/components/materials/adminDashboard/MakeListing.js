@@ -20,16 +20,28 @@ class MakeListing extends Component {
         this.setState({ [name]: event.target.value });
     };
 
-    handleFileUpload = async selectorFiles => {
-        await this.setState(state => {
-            let pics = state.pictures;
-            selectorFiles = Array.from(selectorFiles).filter(eachFile => {
-                const names = pics.map(pics => pics.name);
-                return !names.includes(eachFile.name);
+    handleMakeImagePreview = event => {
+        event.preventDefault();
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        reader.onloadend = () => {
+            if (this.state.primaryImagePreview === '') {
+                this.setState({ primaryImagePreview: reader.result });
+            }
+            this.setState(prevState => {
+                let { pictures } = prevState;
+                !pictures.includes(file) && pictures.push(file);
+                return prevState;
             });
-            pics.push(...selectorFiles);
-            return { pictures: pics };
-        });
+        };
+
+        reader.readAsDataURL(file);
+    };
+
+    formSubmit = async event => {
+        event.preventDefault();
+
+        // This generates thumbnails, and brings them back... though we don't really need this. Legacy code from when I didn't know what I was doing, though it's helpful to read then rewrite
         let formData = new FormData();
         for (let x of this.state.pictures) {
             formData.append('pics', x);
@@ -50,28 +62,6 @@ class MakeListing extends Component {
         }
     };
 
-    _handleImageUpload = event => {
-        event.preventDefault();
-        let reader = new FileReader();
-        let file = event.target.files[0];
-        reader.onloadend = () => {
-            if (this.state.primaryImagePreview === '') {
-                this.setState({ primaryImagePreview: reader.result });
-            }
-            this.setState(prevState => {
-                let { pictures } = prevState;
-                pictures.push(file);
-                return prevState;
-            });
-        };
-
-        reader.readAsDataURL(file);
-    };
-
-    formSubmit = event => {
-        event.preventDefault();
-    };
-
     _chooseFileClick() {
         setTimeout(() => {
             this._inputLabel.click();
@@ -87,7 +77,7 @@ class MakeListing extends Component {
                     <Typography variant="h2" gutterBottom>
                         Add Listing
                     </Typography>
-                    <ListingInput handleTextChange={this.handleTextChange} formSubmit={this.formSubmit} classes={classes} handleFileUpload={this._handleImageUpload} />
+                    <ListingInput handleTextChange={this.handleTextChange} formSubmit={this.formSubmit} classes={classes} handleMakeImagePreview={this.handleMakeImagePreview} />
                 </Grid>
                 <Grid item xs={4}>
                     <Typography variant="h2" gutterBottom>
