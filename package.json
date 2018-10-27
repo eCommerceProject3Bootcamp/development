@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "name": "ecommerce",
     "version": "1.0.0",
     "description": "",
@@ -38,4 +39,45 @@
         "sequelize": "^4.41.0",
         "sharp": "^0.21.0"
     }
+=======
+	"name": "ecommerce",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"start": "if-env NODE_ENV=development && npm run start:prod || npm run start:dev",
+		"start:prod": "node server.js",
+		"start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+		"client": "cd client && npm run start",
+		"install": "cd client && yarn install",
+		"build": "cd client && npm run build",
+		"heroku-postbuild": "npm run build"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"concurrently": "^3.5.0",
+		"nodemon": "^1.11.0"
+	},
+	"dependencies": {
+		"@material-ui/core": "^3.2.2",
+		"@material-ui/icons": "^3.0.1",
+		"axios": "^0.16.2",
+		"body-parser": "^1.18.3",
+		"cors": "^2.8.4",
+		"express": "^4.16.3",
+		"express-fileupload": "^1.0.0",
+		"global": "^4.3.2",
+		"if-env": "^1.0.4",
+		"jimp": "^0.5.4",
+		"markdown-to-jsx": "^6.8.3",
+		"multer": "^1.4.1",
+		"mysql2": "^1.6.1",
+		"react": "^16.5.2",
+		"react-dom": "^16.5.2",
+		"react-router-dom": "^4.3.1",
+		"sequelize": "^4.41.0",
+		"sharp": "^0.21.0"
+	}
+>>>>>>> master
 }
