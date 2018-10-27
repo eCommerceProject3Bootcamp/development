@@ -82,7 +82,6 @@ class MakeListing extends Component {
         try {
             // In production, I'm not sure what this has to be changed to, if anything
             const response = await axios.post('http://localhost:3001/api/products/upload', this.state);
-            console.log(response);
             if (response.data) {
                 this.resetState();
             }
@@ -115,8 +114,7 @@ class MakeListing extends Component {
                                 button
                                 selected={index === this.state.selectedThumbnail}
                                 onClick={event => this.handleListItemClick(event, index)}
-                                key={`RNG_${Math.floor(Math.random() * 10000)}`}
-                            >
+                                key={`RNG_${Math.floor(Math.random() * 10000)}`}>
                                 <Thumbnail classes={classes} image={image.data} />
                             </ListItem>
                         ))}
