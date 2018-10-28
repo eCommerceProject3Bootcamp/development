@@ -83,9 +83,7 @@ class MakeListing extends Component {
             // In production, I'm not sure what this has to be changed to, if anything
             const response = await axios.post('http://localhost:3001/api/products/upload', this.state);
             console.log(response);
-            if (response.data) {
-                this.resetState();
-            }
+            response.data && this.resetState();
         } catch (err) {
             console.log(err);
         }
@@ -95,39 +93,35 @@ class MakeListing extends Component {
         const { classes } = this.props;
         const { description, name, pictures, selectedThumbnail } = this.state;
         return (
-            <Grid container justify="space-between" spacing={24} className={classes.topMargin}>
-                <Grid item xs={4}>
-                    <Typography variant="h3" gutterBottom>
-                        Add Listing
-                    </Typography>
-                    <ListingInput
-                        handleTextChange={this.handleTextChange}
-                        formSubmit={this.formSubmit}
-                        classes={classes}
-                        handleImageUpload={this.handleImageUpload}
-                        textValues={{ name: this.state.name, description: this.state.description }}
-                    />
+            <Grid container>
+                <Grid container justify="space-between" spacing={24} className={classes.topMargin}>
+                    <Grid item xs={4}>
+                        <Typography variant="h3" gutterBottom>
+                            Add Listing
+                        </Typography>
+                        <ListingInput
+                            handleTextChange={this.handleTextChange}
+                            formSubmit={this.formSubmit}
+                            classes={classes}
+                            handleImageUpload={this.handleImageUpload}
+                            textValues={{ name: this.state.name, description: this.state.description }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Typography variant="h3" gutterBottom>
+                            Preview
+                        </Typography>
+                        <Listing name={name} selectedThumbnail={selectedThumbnail} description={description} pictures={pictures} classes={classes} />
+                    </Grid>
                 </Grid>
-                {pictures.length > 0 && (
-                    <List>
-                        {pictures.map((image, index) => (
-                            <ListItem
-                                button
-                                selected={index === this.state.selectedThumbnail}
-                                onClick={event => this.handleListItemClick(event, index)}
-                                key={`RNG_${Math.floor(Math.random() * 10000)}`}
-                            >
+                {pictures.length > 0 &&
+                    pictures.map((image, index) => (
+                        <Grid item key={`RNG_${Math.floor(Math.random() * 10000)}`}>
+                            <ListItem button selected={index === this.state.selectedThumbnail} onClick={event => this.handleListItemClick(event, index)}>
                                 <Thumbnail classes={classes} image={image.data} />
                             </ListItem>
-                        ))}
-                    </List>
-                )}
-                <Grid item xs={4}>
-                    <Typography variant="h3" gutterBottom>
-                        Preview
-                    </Typography>
-                    <Listing name={name} selectedThumbnail={selectedThumbnail} description={description} pictures={pictures} classes={classes} />
-                </Grid>
+                        </Grid>
+                    ))}
             </Grid>
         );
     }

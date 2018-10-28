@@ -2,9 +2,9 @@ import React from 'react';
 import { ListSubheader, ListItemText, ListItemIcon, ListItem } from '@material-ui/core';
 import { Assignment, BarChart, People, ShoppingCart, Dashboard as DashboardIcon } from '@material-ui/icons';
 
-export const mainListItems = (
+export const MainListItems = ({ pageState }) => (
     <div>
-        <ListItem button>
+        <ListItem button onClick={event => pageState(event, 'Listing')}>
             <ListItemIcon>
                 <DashboardIcon />
             </ListItemIcon>

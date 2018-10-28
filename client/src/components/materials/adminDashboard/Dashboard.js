@@ -6,7 +6,7 @@ import styles from './styles/dashboardStyles';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
-import { mainListItems, secondaryListItems } from './drawerItems';
+import { MainListItems, secondaryListItems } from './drawerItems';
 import MakeListing from './MakeListing';
 import Login from '../Login';
 
@@ -15,17 +15,12 @@ class Dashboard extends React.Component {
         open: false,
         auth: true,
         anchorEl: null,
+        currentPage: 'Listing',
     };
 
-    handleDrawerOpen = () => {
+    handleDrawerToggle = () => {
         this.setState({
-            open: true,
-        });
-    };
-
-    handleDrawerClose = () => {
-        this.setState({
-            open: false,
+            open: !this.state.open,
         });
     };
 
@@ -36,15 +31,25 @@ class Dashboard extends React.Component {
     };
 
     handleLoginMenu = event => {
+        let final = this.state.anchorEl === null ? event.currentTarget : null;
         this.setState({
-            anchorEl: event.currentTarget,
+            anchorEl: final,
         });
     };
 
-    handleLoginClose = () => {
-        this.setState({
-            anchorEl: null,
+    pageState = (event, name) => {
+        this.setState(state => {
+            state.currentPage = name;
+            return state;
         });
+    };
+
+    // Other applets can go here, then assign in drawerItems the corresponding key as the argument to this function there
+    handleDashBoardChange = arg => {
+        const obj = {
+            Listing: <MakeListing />,
+        };
+        return obj[arg];
     };
 
     render() {
@@ -60,14 +65,14 @@ class Dashboard extends React.Component {
                             <IconButton
                                 color="inherit"
                                 aria-label="Open drawer"
-                                onClick={this.handleDrawerOpen}
+                                onClick={this.handleDrawerToggle}
                                 className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}>
                                 <MenuIcon />
                             </IconButton>
                             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                                 Placeholder
                             </Typography>
-                            <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} handleLoginClose={this.handleLoginClose} />
+                            <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} />
                             <FormGroup>
                                 <FormControlLabel control={<Switch checked={auth} onChange={this.handleLoginChange} aria-label="LoginSwitch" />} color="inherit" label="(testing) Login" />
                             </FormGroup>
@@ -80,12 +85,12 @@ class Dashboard extends React.Component {
                         }}
                         open={this.state.open}>
                         <div className={classes.toolbarIcon}>
-                            <IconButton onClick={this.handleDrawerClose}>
+                            <IconButton onClick={this.handleDrawerToggle}>
                                 <ChevronLeftIcon />
                             </IconButton>
                         </div>
                         <Divider />
-                        <List>{mainListItems}</List>
+                        <List>{<MainListItems pageState={this.pageState} />}</List>
                         <Divider />
                         {/* <List>{secondaryListItems}</List> */}
                     </Drawer>
@@ -94,7 +99,7 @@ class Dashboard extends React.Component {
                         <Divider />
                         <div className={classes.tableContainer}>
                             {/* Seems like component // applets can go here */}
-                            <MakeListing />
+                            {this.handleDashBoardChange(this.state.currentPage)}
                         </div>
                     </main>
                 </div>

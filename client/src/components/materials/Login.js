@@ -10,8 +10,9 @@ const Profile = 'Profile Placeholder';
 const MyAccount = 'My Account Placeholder';
 
 const Login = props => {
-    const { auth, anchorEl, handleLoginMenu, handleLoginClose } = props;
+    const { auth, anchorEl, handleLoginMenu } = props;
     const open = Boolean(anchorEl);
+
     return (
         auth && (
             <span>
@@ -30,7 +31,7 @@ const Login = props => {
                         horizontal: 'right',
                     }}
                     open={open}
-                    onClose={handleLoginClose}>
+                    onClose={handleLoginMenu}>
                     <MenuItem link={Profile} onClick={event => handleLoginButton(event.target.getAttribute('link'))}>
                         Profile
                     </MenuItem>
