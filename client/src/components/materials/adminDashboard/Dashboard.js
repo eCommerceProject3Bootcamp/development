@@ -8,11 +8,11 @@ import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBase
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
 import { mainListItems, secondaryListItems } from './drawerItems';
 import MakeListing from './MakeListing';
-import { Login } from '../Login';
+import Login from '../Login';
 
 class Dashboard extends React.Component {
     state = {
-        open: true,
+        open: false,
         auth: true,
         anchorEl: null,
     };
@@ -61,8 +61,7 @@ class Dashboard extends React.Component {
                                 color="inherit"
                                 aria-label="Open drawer"
                                 onClick={this.handleDrawerOpen}
-                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}
-                            >
+                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}>
                                 <MenuIcon />
                             </IconButton>
                             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
@@ -79,8 +78,7 @@ class Dashboard extends React.Component {
                         classes={{
                             paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
                         }}
-                        open={this.state.open}
-                    >
+                        open={this.state.open}>
                         <div className={classes.toolbarIcon}>
                             <IconButton onClick={this.handleDrawerClose}>
                                 <ChevronLeftIcon />
