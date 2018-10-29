@@ -75,6 +75,7 @@ class Dashboard extends React.Component {
                             <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} />
                             <FormGroup>
                                 <FormControlLabel control={<Switch checked={auth} onChange={this.handleLoginChange} aria-label="LoginSwitch" />} color="inherit" label="(testing) Login" />
+                                {/* <FormControlLabel control={} color="inherit" label="Sign in"/> */}
                             </FormGroup>
                         </Toolbar>
                     </AppBar>
