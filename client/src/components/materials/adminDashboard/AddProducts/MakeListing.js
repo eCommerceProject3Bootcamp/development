@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Grid, Typography, List, ListItem } from '@material-ui/core';
 // import classNames from "classnames";
 import { withStyles } from '@material-ui/core/styles';
-import styles from './styles/makeListingStyles';
+import styles from '../styles/makeListingStyles';
 import axios from 'axios';
 import ListingInput from './ListingInput';
 import Listing from './Listing';
-import Thumbnail from './Thumbnail';
+import Thumbnail from '../Thumbnail';
 class MakeListing extends Component {
     state = {
         pictures: [],
@@ -111,13 +111,23 @@ class MakeListing extends Component {
                         <Typography variant="h3" gutterBottom>
                             Preview
                         </Typography>
-                        <Listing name={name} selectedThumbnail={selectedThumbnail} description={description} pictures={pictures} classes={classes} />
+                        <Listing
+                            name={name}
+                            selectedThumbnail={selectedThumbnail}
+                            description={description}
+                            pictures={pictures}
+                            classes={classes}
+                        />
                     </Grid>
                 </Grid>
                 {pictures.length > 0 &&
                     pictures.map((image, index) => (
                         <Grid item key={`RNG_${Math.floor(Math.random() * 10000)}`}>
-                            <ListItem button selected={index === this.state.selectedThumbnail} onClick={event => this.handleListItemClick(event, index)}>
+                            <ListItem
+                                button
+                                selected={index === this.state.selectedThumbnail}
+                                onClick={event => this.handleListItemClick(event, index)}
+                            >
                                 <Thumbnail classes={classes} image={image.data} />
                             </ListItem>
                         </Grid>

@@ -1,6 +1,6 @@
 import React from 'react';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Menu, MenuItem, IconButton } from '@material-ui/core';
+import { Menu, MenuItem, IconButton, FormControlLabel, Switch } from '@material-ui/core';
 
 const handleLoginButton = link => {
     console.log(link);
@@ -10,37 +10,56 @@ const Profile = 'Profile Placeholder';
 const MyAccount = 'My Account Placeholder';
 
 const Login = props => {
-    const { auth, anchorEl, handleLoginMenu } = props;
+    const { auth, anchorEl, handleLoginMenu, handleLoginChange } = props;
     const open = Boolean(anchorEl);
 
     return (
-        auth && (
-            <span>
-                <IconButton aria-owns={open ? 'menu-appbar' : null} aria-haspopup="true" onClick={handleLoginMenu} color="inherit">
-                    <AccountCircle />
-                </IconButton>
-                <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={handleLoginMenu}>
-                    <MenuItem link={Profile} onClick={event => handleLoginButton(event.target.getAttribute('link'))}>
-                        Profile
-                    </MenuItem>
-                    <MenuItem link={MyAccount} onClick={event => handleLoginButton(event.target.getAttribute('link'))}>
-                        My account
-                    </MenuItem>
-                </Menu>
-            </span>
-        )
+        <span>
+            {auth && (
+                <span>
+                    <IconButton
+                        aria-owns={open ? 'menu-appbar' : null}
+                        aria-haspopup="true"
+                        onClick={handleLoginMenu}
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={open}
+                        onClose={handleLoginMenu}
+                    >
+                        <MenuItem
+                            link={Profile}
+                            onClick={event => handleLoginButton(event.target.getAttribute('link'))}
+                        >
+                            Profile
+                        </MenuItem>
+                        <MenuItem
+                            link={MyAccount}
+                            onClick={event => handleLoginButton(event.target.getAttribute('link'))}
+                        >
+                            My account
+                        </MenuItem>
+                    </Menu>
+                </span>
+            )}
+            <FormControlLabel
+                control={<Switch checked={auth} onChange={handleLoginChange} aria-label="LoginSwitch" />}
+                color="inherit"
+                label="(testing) Login"
+            />
+        </span>
     );
 };
 

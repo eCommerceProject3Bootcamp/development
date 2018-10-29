@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
-import { AttachFile as AttachFileIcon } from '@material-ui/icons';
+import { InsertPhoto as InsertPhotoIcon } from '@material-ui/icons';
 
 class ListingInput extends Component {
     _chooseFileClick() {
@@ -13,7 +13,15 @@ class ListingInput extends Component {
         return (
             <form onSubmit={e => formSubmit(e)}>
                 <Grid item xs={12}>
-                    <TextField onChange={handleTextChange('name')} value={textValues.name} required id="listing-name" label="Name" className={classes.textField} margin="normal" />
+                    <TextField
+                        onChange={handleTextChange('name')}
+                        value={textValues.name}
+                        required
+                        id="listing-name"
+                        label="Name"
+                        className={classes.textField}
+                        margin="normal"
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
@@ -41,7 +49,7 @@ class ListingInput extends Component {
                     />
                     <label htmlFor="file-upload" ref={x => (this._inputLabel = x)}>
                         <Button onClick={() => this._chooseFileClick()}>
-                            <AttachFileIcon />
+                            <InsertPhotoIcon />
                             Add Images
                         </Button>
                     </label>

@@ -4,22 +4,31 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles/dashboardStyles';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
-import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline, FormGroup, FormControlLabel, Switch, Button } from '@material-ui/core';
+import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline } from '@material-ui/core';
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
 import { MainListItems, secondaryListItems } from './drawerItems';
-import MakeListing from './MakeListing';
+import MakeListing from './AddProducts/MakeListing';
+import ViewProducts from './ViewProducts/ViewProducts';
 import Login from '../Login';
-import Auth from '../../../Auth/Auth.js';
 
 class Dashboard extends React.Component {
     state = {
         open: false,
         isAuthenticated: true,
         anchorEl: null,
-        currentPage: 'Listing',
+        currentPage: 'ViewProducts',
     };
 
-    auth = new Auth();
+    handleDashBoardChange = arg => {
+        const obj = {
+            AddProducts: <MakeListing />,
+            ViewProducts: <ViewProducts />,
+        };
+        if (!obj[arg]) {
+            return obj.AddProducts;
+        }
+        return obj[arg];
+    };
 
     handleDrawerToggle = () => {
         this.setState({
@@ -48,12 +57,6 @@ class Dashboard extends React.Component {
     };
 
     // Other applets can go here, then assign in drawerItems the corresponding key as the argument to this function there
-    handleDashBoardChange = arg => {
-        const obj = {
-            Listing: <MakeListing />,
-        };
-        return obj[arg];
-    };
 
     render() {
         // This is how we access the "styles", from dashboardStyles.js. This is because we use the material-ui "withStyles(styles)(Dashboard)" function. our "props" here, is classes.
@@ -63,23 +66,28 @@ class Dashboard extends React.Component {
             <React.Fragment>
                 <CssBaseline />
                 <div className={classes.root}>
-                    <AppBar position="absolute" className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
+                    <AppBar
+                        position="absolute"
+                        className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+                    >
                         <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
                             <IconButton
                                 color="inherit"
                                 aria-label="Open drawer"
                                 onClick={this.handleDrawerToggle}
-                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}>
+                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}
+                            >
                                 <MenuIcon />
                             </IconButton>
                             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                                 Placeholder
                             </Typography>
-                            <Login auth={isAuthenticated} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} />
-                            <FormGroup>
-                                <FormControlLabel control={<Switch checked={isAuthenticated} onChange={this.handleLoginChange} aria-label="LoginSwitch" />} color="inherit" label="(testing) Login" />
-                                {/* <FormControlLabel control={<Button onClick={this.auth.login()} />} color="inherit" label="Sign in" /> */}
-                            </FormGroup>
+                            <Login
+                                auth={isAuthenticated}
+                                anchorEl={anchorEl}
+                                handleLoginMenu={this.handleLoginMenu}
+                                handleLoginChange={this.handleLoginChange}
+                            />
                         </Toolbar>
                     </AppBar>
                     <Drawer
@@ -87,7 +95,8 @@ class Dashboard extends React.Component {
                         classes={{
                             paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
                         }}
-                        open={this.state.open}>
+                        open={this.state.open}
+                    >
                         <div className={classes.toolbarIcon}>
                             <IconButton onClick={this.handleDrawerToggle}>
                                 <ChevronLeftIcon />
@@ -95,8 +104,8 @@ class Dashboard extends React.Component {
                         </div>
                         <Divider />
                         <List>{<MainListItems pageState={this.pageState} />}</List>
-                        <Divider />
-                        {/* <List>{secondaryListItems}</List> */}
+                        {/* <Divider />
+                        <List>{secondaryListItems}</List> */}
                     </Drawer>
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
