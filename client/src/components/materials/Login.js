@@ -9,9 +9,10 @@ const handleLoginButton = link => {
 const Profile = 'Profile Placeholder';
 const MyAccount = 'My Account Placeholder';
 
-export const Login = props => {
-    const { auth, anchorEl, handleLoginMenu, handleLoginClose } = props;
+const Login = props => {
+    const { auth, anchorEl, handleLoginMenu } = props;
     const open = Boolean(anchorEl);
+
     return (
         auth && (
             <span>
@@ -30,8 +31,7 @@ export const Login = props => {
                         horizontal: 'right',
                     }}
                     open={open}
-                    onClose={handleLoginClose}
-                >
+                    onClose={handleLoginMenu}>
                     <MenuItem link={Profile} onClick={event => handleLoginButton(event.target.getAttribute('link'))}>
                         Profile
                     </MenuItem>
@@ -43,3 +43,5 @@ export const Login = props => {
         )
     );
 };
+
+export default Login;

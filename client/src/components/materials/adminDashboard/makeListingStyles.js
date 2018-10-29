@@ -27,4 +27,9 @@ export const styles = theme => ({
     media: {
         height: 140,
     },
+    listHorizontalDisplay: {
+        display: 'flex',
+        flexDirection: 'row',
+        // padding: theme.spacing.unit,
+    },
 });
