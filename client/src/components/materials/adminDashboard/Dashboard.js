@@ -14,7 +14,7 @@ import Auth from '../../../Auth/Auth.js';
 class Dashboard extends React.Component {
     state = {
         open: false,
-        auth: true,
+        isAuthenticated: true,
         anchorEl: null,
         currentPage: 'Listing',
     };
@@ -29,7 +29,7 @@ class Dashboard extends React.Component {
 
     handleLoginChange = event => {
         this.setState({
-            auth: event.target.checked,
+            isAuthenticated: event.target.checked,
         });
     };
 
@@ -58,7 +58,7 @@ class Dashboard extends React.Component {
     render() {
         // This is how we access the "styles", from dashboardStyles.js. This is because we use the material-ui "withStyles(styles)(Dashboard)" function. our "props" here, is classes.
         const { classes } = this.props;
-        const { auth, anchorEl } = this.state;
+        const { isAuthenticated, anchorEl } = this.state;
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -75,10 +75,10 @@ class Dashboard extends React.Component {
                             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                                 Placeholder
                             </Typography>
-                            <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} />
+                            <Login auth={isAuthenticated} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} />
                             <FormGroup>
-                                <FormControlLabel control={<Switch checked={auth} onChange={this.handleLoginChange} aria-label="LoginSwitch" />} color="inherit" label="(testing) Login" />
-                                <FormControlLabel control={<Button onClick={this.auth.login()} />} color="inherit" label="Sign in" />
+                                <FormControlLabel control={<Switch checked={isAuthenticated} onChange={this.handleLoginChange} aria-label="LoginSwitch" />} color="inherit" label="(testing) Login" />
+                                {/* <FormControlLabel control={<Button onClick={this.auth.login()} />} color="inherit" label="Sign in" /> */}
                             </FormGroup>
                         </Toolbar>
                     </AppBar>
