@@ -4,11 +4,12 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles/dashboardStyles';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
-import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
+import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline, FormGroup, FormControlLabel, Switch, Button } from '@material-ui/core';
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
 import { MainListItems, secondaryListItems } from './drawerItems';
 import MakeListing from './MakeListing';
 import Login from '../Login';
+import Auth from '../../../Auth/Auth.js';
 
 class Dashboard extends React.Component {
     state = {
@@ -17,6 +18,8 @@ class Dashboard extends React.Component {
         anchorEl: null,
         currentPage: 'Listing',
     };
+
+    auth = new Auth();
 
     handleDrawerToggle = () => {
         this.setState({
@@ -75,7 +78,7 @@ class Dashboard extends React.Component {
                             <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} />
                             <FormGroup>
                                 <FormControlLabel control={<Switch checked={auth} onChange={this.handleLoginChange} aria-label="LoginSwitch" />} color="inherit" label="(testing) Login" />
-                                {/* <FormControlLabel control={} color="inherit" label="Sign in"/> */}
+                                <FormControlLabel control={<Button onClick={this.auth.login()} />} color="inherit" label="Sign in" />
                             </FormGroup>
                         </Toolbar>
                     </AppBar>
