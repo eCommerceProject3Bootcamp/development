@@ -1,5 +1,6 @@
 const db = require('../models');
 const pictures = require('./pictures.json');
+const blobUtil = require('blob-util');
 
 // This file empties the Books collection and inserts the books below
 
@@ -11,7 +12,8 @@ const dbSeed = [
     },
     {
         name: 'Desert',
-        description: "Cool desert. I think this is in Utah actually, I've seen it. *This is some Markdown* **** #This is too",
+        description:
+            "Cool desert. I think this is in Utah actually, I've seen it. *This is some Markdown* **** #This is too",
         pictures: pictures[1],
     },
     {
@@ -21,17 +23,20 @@ const dbSeed = [
     },
     {
         name: 'Jellyfish',
-        description: 'These are so cool! No brain, just nervous system. Really basic one too. *This is some Markdown* **** #This is too',
+        description:
+            'These are so cool! No brain, just nervous system. Really basic one too. *This is some Markdown* **** #This is too',
         pictures: pictures[3],
     },
     {
         name: 'Koala',
-        description: "These things might as well have no brain, apparently. They're really dumb, and they all have Chlamydia! Seriously, look it up. *This is some Markdown* **** #This is too",
+        description:
+            "These things might as well have no brain, apparently. They're really dumb, and they all have Chlamydia! Seriously, look it up. *This is some Markdown* **** #This is too",
         pictures: pictures[4],
     },
     {
         name: 'Lighthouse',
-        description: '"Don\'t ever let anyone put out your light because they are blinded by it." -- Shannon L. Adler. *This is some Markdown* **** #This is too',
+        description:
+            '"Don\'t ever let anyone put out your light because they are blinded by it." -- Shannon L. Adler. *This is some Markdown* **** #This is too',
         pictures: pictures[5],
     },
     {
@@ -41,7 +46,8 @@ const dbSeed = [
     },
     {
         name: 'Tulips',
-        description: 'A pretty flower. There was some kind of wacky stock market weirdness with Tulips, in Denmark... if I remember right! Look it up. *This is some Markdown* **** #This is too',
+        description:
+            'A pretty flower. There was some kind of wacky stock market weirdness with Tulips, in Denmark... if I remember right! Look it up. *This is some Markdown* **** #This is too',
         pictures: pictures[7],
     },
 ];

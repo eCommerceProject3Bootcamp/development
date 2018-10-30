@@ -22,8 +22,9 @@
     "dependencies": {
         "@material-ui/core": "^3.2.2",
         "@material-ui/icons": "^3.0.1",
+        "atob": "^2.1.2",
         "axios": "^0.16.2",
-        "b64-to-blob": "^1.2.19",
+        "blob-util": "^2.0.2",
         "body-parser": "^1.18.3",
         "cors": "^2.8.4",
         "express": "^4.16.3",
