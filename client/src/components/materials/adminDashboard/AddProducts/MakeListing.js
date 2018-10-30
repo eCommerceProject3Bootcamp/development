@@ -60,17 +60,22 @@ class MakeListing extends Component {
 
     handleImageUpload = event => {
         event.preventDefault();
-        let unProcessedFiles = Array.from(event.target.files);
+        let unprocessedFiles = Array.from(event.target.files);
         let processedFiles = [];
-        unProcessedFiles = unProcessedFiles.filter(file => !this.state.pictures.includes(file));
-        for (let file of unProcessedFiles) {
+        unprocessedFiles = unprocessedFiles.filter(file => !this.state.pictures.includes(file));
+        for (let file of unprocessedFiles) {
             processedFiles.push(this._readUploadedFile(file));
         }
         Promise.all(processedFiles).then(data => {
             data.forEach((result, index) => {
                 this.setState(state => {
                     let { pictures } = state;
-                    !pictures.includes(result) && pictures.push({ name: unProcessedFiles[index].name, data: result });
+                    !pictures.includes(result) &&
+                        pictures.push({
+                            name: unprocessedFiles[index].name,
+                            type: unprocessedFiles[index],
+                            data: result,
+                        });
                     return state;
                 });
             });

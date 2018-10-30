@@ -19,13 +19,7 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: 'Electronics',
         },
         pictures: {
-            type: DataTypes.STRING,
-            get: function() {
-                return JSON.parse(this.getDataValue('pictures'));
-            },
-            set: function(val) {
-                return this.setDataValue('pictures', JSON.stringify(val));
-            },
+            type: DataTypes.BLOB,
         },
     });
     return Listing;
