@@ -116,23 +116,13 @@ class MakeListing extends Component {
                         <Typography variant="h3" gutterBottom>
                             Preview
                         </Typography>
-                        <Listing
-                            name={name}
-                            selectedThumbnail={selectedThumbnail}
-                            description={description}
-                            pictures={pictures}
-                            classes={classes}
-                        />
+                        <Listing name={name} selectedThumbnail={selectedThumbnail} description={description} pictures={pictures} classes={classes} />
                     </Grid>
                 </Grid>
                 {pictures.length > 0 &&
                     pictures.map((image, index) => (
                         <Grid item key={`RNG_${Math.floor(Math.random() * 10000)}`}>
-                            <ListItem
-                                button
-                                selected={index === this.state.selectedThumbnail}
-                                onClick={event => this.handleListItemClick(event, index)}
-                            >
+                            <ListItem button selected={index === this.state.selectedThumbnail} onClick={event => this.handleListItemClick(event, index)}>
                                 <Thumbnail classes={classes} image={image.data} />
                             </ListItem>
                         </Grid>
