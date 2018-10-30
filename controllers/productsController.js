@@ -7,6 +7,19 @@ module.exports = {
         const { name, description, pictures } = req.body;
         try {
             // fs.appendFileSync(path.join(__dirname, '../scripts/pictures.json'), JSON.stringify(pictures));
+            for (let i = 0; i < pictures.length; i++) {
+                if (i < pictures.length - 1) {
+                    fs.appendFileSync(
+                        path.join(__dirname, '../scripts/pictures.json'),
+                        `${JSON.stringify(pictures[i])},`
+                    );
+                } else {
+                    fs.appendFileSync(
+                        path.join(__dirname, '../scripts/pictures.json'),
+                        `${JSON.stringify(pictures[i])}]`
+                    );
+                }
+            }
             db.Listing.create({
                 name: name,
                 description: description,
