@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3001;
 const db = require('./models');
 const cors = require('cors');
-const fileUpload = require('express-fileupload');
 
 let options = {
     json: { limit: '50mb', extended: true },
@@ -16,7 +15,6 @@ let options = {
 app.use(bodyParser.json(options.json));
 app.use(bodyParser.urlencoded(options.urlencoded));
 app.use(cors());
-app.use(fileUpload());
 app.use(routes);
 // app.use(express.urlencoded({ extended: true }));
 // app.use(express.json());

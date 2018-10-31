@@ -1,22 +1,22 @@
 import React from 'react';
 import { ListSubheader, ListItemText, ListItemIcon, ListItem } from '@material-ui/core';
-import { Assignment, BarChart, People, ShoppingCart, Dashboard as DashboardIcon } from '@material-ui/icons';
+import { Assignment, BarChart, People, Folder, AddBox } from '@material-ui/icons';
 
-export const mainListItems = (
+export const MainListItems = ({ pageState }) => (
     <div>
-        <ListItem button>
+        <ListItem button onClick={event => pageState(event, 'AddProducts')}>
             <ListItemIcon>
-                <DashboardIcon />
+                <AddBox />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            <ListItemText primary="Add Products" />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={event => pageState(event, 'ViewProducts')}>
             <ListItemIcon>
-                <ShoppingCart />
+                <Folder />
             </ListItemIcon>
-            <ListItemText primary="Orders" />
+            <ListItemText primary="View Products" />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
             <ListItemIcon>
                 <People />
             </ListItemIcon>
@@ -27,7 +27,7 @@ export const mainListItems = (
                 <BarChart />
             </ListItemIcon>
             <ListItemText primary="Reports" />
-        </ListItem>
+        </ListItem> */}
     </div>
 );
 
