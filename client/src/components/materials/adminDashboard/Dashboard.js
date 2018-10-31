@@ -4,63 +4,77 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles/dashboardStyles';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
-import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
+import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline } from '@material-ui/core';
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
-import { mainListItems, secondaryListItems } from './drawerItems';
-import MakeListing from './MakeListing';
-import { Login } from '../Login';
+import { MainListItems, secondaryListItems } from './drawerItems';
+import MakeListing from './AddProducts/MakeListing';
+import ViewProducts from './ViewProducts/ViewProducts';
+import Login from '../Login';
 
 class Dashboard extends React.Component {
     state = {
-        open: true,
-        auth: true,
+        open: false,
+        isAuthenticated: true,
         anchorEl: null,
+        currentPage: 'ViewProducts',
     };
 
-    handleDrawerOpen = () => {
-        this.setState({
-            open: true,
-        });
+    handleDashBoardChange = arg => {
+        const obj = {
+            AddProducts: <MakeListing />,
+            ViewProducts: <ViewProducts />,
+        };
+        if (!obj[arg]) {
+            return obj.AddProducts;
+        }
+        return obj[arg];
     };
 
-    handleDrawerClose = () => {
+    handleDrawerToggle = () => {
         this.setState({
-            open: false,
+            open: !this.state.open,
         });
     };
 
     handleLoginChange = event => {
         this.setState({
-            auth: event.target.checked,
+            isAuthenticated: event.target.checked,
         });
     };
 
     handleLoginMenu = event => {
+        let final = this.state.anchorEl === null ? event.currentTarget : null;
         this.setState({
-            anchorEl: event.currentTarget,
+            anchorEl: final,
         });
     };
 
-    handleLoginClose = () => {
-        this.setState({
-            anchorEl: null,
+    pageState = (event, name) => {
+        this.setState(state => {
+            state.currentPage = name;
+            return state;
         });
     };
+
+    // Other applets can go here, then assign in drawerItems the corresponding key as the argument to this function there
 
     render() {
         // This is how we access the "styles", from dashboardStyles.js. This is because we use the material-ui "withStyles(styles)(Dashboard)" function. our "props" here, is classes.
         const { classes } = this.props;
-        const { auth, anchorEl } = this.state;
+        const { isAuthenticated, anchorEl } = this.state;
         return (
             <React.Fragment>
                 <CssBaseline />
                 <div className={classes.root}>
-                    <AppBar position="absolute" className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
+                    <AppBar
+                        position="absolute"
+                        className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+                    >
                         <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
                             <IconButton
                                 color="inherit"
                                 aria-label="Open drawer"
-                                onClick={this.handleDrawerOpen}
+                                onClick={this.handleDrawerToggle}
                                 className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}
                             >
                                 <MenuIcon />
@@ -68,10 +82,12 @@ class Dashboard extends React.Component {
                             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                                 Placeholder
                             </Typography>
-                            <Login auth={auth} anchorEl={anchorEl} handleLoginMenu={this.handleLoginMenu} handleLoginClose={this.handleLoginClose} />
-                            <FormGroup>
-                                <FormControlLabel control={<Switch checked={auth} onChange={this.handleLoginChange} aria-label="LoginSwitch" />} color="inherit" label="(testing) Login" />
-                            </FormGroup>
+                            <Login
+                                auth={isAuthenticated}
+                                anchorEl={anchorEl}
+                                handleLoginMenu={this.handleLoginMenu}
+                                handleLoginChange={this.handleLoginChange}
+                            />
                         </Toolbar>
                     </AppBar>
                     <Drawer
@@ -82,21 +98,21 @@ class Dashboard extends React.Component {
                         open={this.state.open}
                     >
                         <div className={classes.toolbarIcon}>
-                            <IconButton onClick={this.handleDrawerClose}>
+                            <IconButton onClick={this.handleDrawerToggle}>
                                 <ChevronLeftIcon />
                             </IconButton>
                         </div>
                         <Divider />
-                        <List>{mainListItems}</List>
-                        <Divider />
-                        {/* <List>{secondaryListItems}</List> */}
+                        <List>{<MainListItems pageState={this.pageState} />}</List>
+                        {/* <Divider />
+                        <List>{secondaryListItems}</List> */}
                     </Drawer>
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
                         <Divider />
                         <div className={classes.tableContainer}>
                             {/* Seems like component // applets can go here */}
-                            <MakeListing />
+                            {this.handleDashBoardChange(this.state.currentPage)}
                         </div>
                     </main>
                 </div>
