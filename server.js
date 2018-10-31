@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3001;
 const db = require('./models');
 const cors = require('cors');
-// const fileUpload = require('express-fileupload');
-// const multer = require('multer');
 
 let options = {
     json: { limit: '50mb', extended: true },

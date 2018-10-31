@@ -1,6 +1,5 @@
 const db = require('../models');
 const pictures = require('./pictures.json');
-const blobUtil = require('blob-util');
 
 // This file empties the Books collection and inserts the books below
 
@@ -30,7 +29,7 @@ const dbSeed = [
     {
         name: 'Koala',
         description:
-            "These things might as well have no brain, apparently. They're really dumb, and they all have Chlamydia! Seriously, look it up. *This is some Markdown* **** #This is too",
+            "These things might as well have no brain, apparently. They're really dumb! *This is some Markdown* **** #This is too",
         pictures: pictures[4],
     },
     {
@@ -62,9 +61,11 @@ seed = async function() {
         truncate: true,
     });
     console.log(`${count} records destroyed.\n\nInserting new listings, with pictures...`);
-    db.Listing.bulkCreate(dbSeed)
-        .then(() => console.log(`Done! ${dbSeed.length} records inserted`))
-        .then(() => process.exit());
+    for (let x of dbSeed) {
+        await db.Listing.create(x);
+    }
+    console.log(`Done! ${dbSeed.length} records inserted`);
+    process.exit();
 };
 
 seed();
