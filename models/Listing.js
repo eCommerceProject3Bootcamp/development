@@ -19,5 +19,8 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: 'Electronics',
         },
     });
+    Listing.associate = function(models) {
+        Listing.hasOne(models.Picture);
+    };
     return Listing;
 };

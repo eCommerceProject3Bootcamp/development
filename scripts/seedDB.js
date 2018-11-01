@@ -58,11 +58,19 @@ seed = async function() {
     });
     await db.Listing.destroy({
         where: {},
-        truncate: true,
+        // truncate: true,
     });
     console.log(`${count} records destroyed.\n\nInserting new listings, with pictures...`);
     for (let x of dbSeed) {
-        await db.Listing.create(x);
+        let data = {
+            Picture: {
+                pictures: x.pictures,
+            },
+            pictureId: '',
+            name: x.name,
+            description: x.description,
+        };
+        await db.Listing.create(data, { include: [db.Picture], validate: false });
     }
     console.log(`Done! ${dbSeed.length} records inserted`);
     process.exit();

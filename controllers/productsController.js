@@ -19,10 +19,10 @@ module.exports = {
         try {
             db.Listing.findAll({
                 where: {},
-            }).then(data => res.json(data));
+            }).then(data => res.send(data));
         } catch (err) {
             console.log(err);
-            return res.json(err);
+            return res.send(err);
         }
     },
 };

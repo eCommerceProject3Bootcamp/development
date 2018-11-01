@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    let Pictures = sequelize.define('Pictures', {
+    let Picture = sequelize.define('Picture', {
         pictures: {
             type: DataTypes.TEXT('long'),
             get: function() {
@@ -10,8 +10,8 @@ module.exports = function(sequelize, DataTypes) {
             },
         },
     });
-    Pictures.associate = function(models) {
-        Pictures.hasOne(models.Listing, { foreignKey: 'ListingId' });
+    Picture.associate = function(models) {
+        Picture.belongsTo(models.Listing);
     };
-    return Pictures;
+    return Picture;
 };
