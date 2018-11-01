@@ -4,12 +4,15 @@ module.exports = {
     upload: function(req, res) {
         const { name, description, pictures } = req.body;
         try {
-            db.Listing.create({
+            let data = {
+                Picture: {
+                    pictures: pictures,
+                },
+                pictureId: '',
                 name: name,
                 description: description,
-                pictures: pictures,
-            });
-            // return res.send(true);
+            };
+            db.Listing.create(data, { include: [db.Picture], validate: false }).then(data => res.send(data));
         } catch (err) {
             console.log(err);
             return res.send(false);
