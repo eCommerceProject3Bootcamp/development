@@ -88,8 +88,8 @@ class MakeListing extends Component {
         try {
             // In production, I'm not sure what this has to be changed to, if anything
             const response = await axios.post('http://localhost:3001/api/products/upload', this.state);
-            console.log(response);
-            response.data && this.resetState();
+            // console.log(response);
+            response.status === 200 && this.resetState();
         } catch (err) {
             console.log(err);
         }

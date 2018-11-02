@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
         },
     });
     Listing.associate = function(models) {
-        Listing.hasOne(models.Picture);
+        Listing.belongsTo(models.Picture);
     };
     return Listing;
 };

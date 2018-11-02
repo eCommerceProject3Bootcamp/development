@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
         },
     });
     Picture.associate = function(models) {
-        Picture.belongsTo(models.Listing);
+        Picture.hasOne(models.Listing);
     };
     return Picture;
 };

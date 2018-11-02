@@ -20,9 +20,15 @@ module.exports = {
     },
     findAll: function(req, res) {
         try {
-            db.Listing.findAll({
-                where: {},
-            }).then(data => res.send(data));
+            db.Listing.findAll({}).then(data => res.send(data));
+        } catch (err) {
+            console.log(err);
+            return res.send(err);
+        }
+    },
+    pictures: function(req, res) {
+        try {
+            db.Picture.findAll({}).then(data => res.send(data));
         } catch (err) {
             console.log(err);
             return res.send(err);

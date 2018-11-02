@@ -7,10 +7,10 @@ class Listing extends Component {
         return (
             <Card className={classes.card}>
                 <CardActionArea>
-                    {pictures.length > 0 && (
+                    {pictures.length && (
                         <CardMedia
                             className={classes.media}
-                            image={pictures[selectedThumbnail].data}
+                            image={selectedThumbnail && pictures[selectedThumbnail].data}
                             title={pictures[0].name}
                         />
                     )}
