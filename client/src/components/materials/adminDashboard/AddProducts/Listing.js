@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { compiler } from 'markdown-to-jsx';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 class Listing extends Component {
+    linesToParagraphs = function(string) {
+        return string
+            .split('')
+            .map(e => (e === '\n' && e.repeat(2)) || e)
+            .join('');
+    };
     render(props) {
         const { classes, pictures, name, description, selectedThumbnail } = this.props;
         return (
@@ -20,7 +26,7 @@ class Listing extends Component {
                         {name}
                     </Typography>
                     <Typography gutterBottom component="div">
-                        {compiler(description)}
+                        {compiler(this.linesToParagraphs(description))}
                     </Typography>
                 </CardContent>
                 <CardActions>

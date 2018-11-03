@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
         open: false,
         isAuthenticated: true,
         anchorEl: null,
-        currentPage: 'ViewProducts',
+        currentPage: 'AddProducts',
     };
 
     handleDashBoardChange = arg => {
