@@ -1,65 +1,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, List, ListItem } from '@material-ui/core';
 // import classNames from "classnames";
 import { withStyles } from '@material-ui/core/styles';
-import { styles } from './makeListingStyles';
+import styles from './styles/makeListingStyles';
 import axios from 'axios';
 import ListingInput from './ListingInput';
 import Listing from './Listing';
+import Thumbnail from './Thumbnail';
 class MakeListing extends Component {
     state = {
-        primaryImagePreview: '',
-        thumbnails: [],
         pictures: [],
         description: '',
         name: '',
+        selectedThumbnail: 0,
+        successfulUpload: null,
+    };
+
+    resetState = () => {
+        const defaultState = {
+            pictures: [],
+            description: '',
+            name: '',
+            selectedThumbnail: 0,
+            successfulUpload: true,
+        };
+        this.setState(defaultState);
     };
 
     handleTextChange = name => event => {
         this.setState({ [name]: event.target.value });
     };
 
-    handleMakeImagePreview = event => {
-        event.preventDefault();
-        let reader = new FileReader();
-        let file = event.target.files[0];
-        reader.onloadend = () => {
-            if (this.state.primaryImagePreview === '') {
-                this.setState({ primaryImagePreview: reader.result });
-            }
-            this.setState(prevState => {
-                let { pictures } = prevState;
-                !pictures.includes(file) && pictures.push(file);
-                return prevState;
-            });
-        };
-
-        reader.readAsDataURL(file);
-    };
-
-    formSubmit = async event => {
-        event.preventDefault();
-
-        // This generates thumbnails, and brings them back... though we don't really need this. Legacy code from when I didn't know what I was doing, though it's helpful to read then rewrite
-        let formData = new FormData();
-        for (let x of this.state.pictures) {
-            formData.append('pics', x);
-        }
-        try {
-            const response = await axios.post('http://localhost:3001/api/images/upload', formData);
-            console.log(response);
-            this.setState(state => {
-                let { thumbnails } = state;
-                let newThumbnails = response.data.map(eachPic => {
-                    return eachPic.bitmap.data;
-                });
-                thumbnails.push(...newThumbnails);
-                return { thumbnails: thumbnails };
-            });
-        } catch (err) {
-            console.log(err);
-        }
+    handleListItemClick = (event, index) => {
+        this.setState({ selectedThumbnail: index });
     };
 
     _chooseFileClick() {
@@ -68,22 +42,89 @@ class MakeListing extends Component {
         }, 250);
     }
 
+    _readUploadedFile = inputFile => {
+        const temporaryFileReader = new FileReader();
+
+        return new Promise((resolve, reject) => {
+            temporaryFileReader.onerror = () => {
+                temporaryFileReader.abort();
+                reject(new DOMException('Problem parsing input file.'));
+            };
+
+            temporaryFileReader.onloadend = () => {
+                resolve(temporaryFileReader.result);
+            };
+            temporaryFileReader.readAsDataURL(inputFile);
+        });
+    };
+
+    handleImageUpload = event => {
+        event.preventDefault();
+        let unProcessedFiles = Array.from(event.target.files);
+        let processedFiles = [];
+        unProcessedFiles = unProcessedFiles.filter(file => !this.state.pictures.includes(file));
+        for (let file of unProcessedFiles) {
+            processedFiles.push(this._readUploadedFile(file));
+        }
+        Promise.all(processedFiles).then(data => {
+            data.forEach((result, index) => {
+                this.setState(state => {
+                    let { pictures } = state;
+                    !pictures.includes(result) && pictures.push({ name: unProcessedFiles[index].name, data: result });
+                    return state;
+                });
+            });
+        });
+    };
+
+    formSubmit = async event => {
+        event.preventDefault();
+        try {
+            // In production, I'm not sure what this has to be changed to, if anything
+            const response = await axios.post('http://localhost:3001/api/products/upload', this.state);
+            if (response.data) {
+                this.resetState();
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     render() {
         const { classes } = this.props;
-        const { description, name, thumbnails, pictures, primaryImagePreview } = this.state;
+        const { description, name, pictures, selectedThumbnail } = this.state;
         return (
-            <Grid container justify="space-evenly" spacing={24} className={classes.topMargin}>
+            <Grid container justify="space-between" spacing={24} className={classes.topMargin}>
                 <Grid item xs={4}>
-                    <Typography variant="h2" gutterBottom>
+                    <Typography variant="h3" gutterBottom>
                         Add Listing
                     </Typography>
-                    <ListingInput handleTextChange={this.handleTextChange} formSubmit={this.formSubmit} classes={classes} handleMakeImagePreview={this.handleMakeImagePreview} />
+                    <ListingInput
+                        handleTextChange={this.handleTextChange}
+                        formSubmit={this.formSubmit}
+                        classes={classes}
+                        handleImageUpload={this.handleImageUpload}
+                        textValues={{ name: this.state.name, description: this.state.description }}
+                    />
                 </Grid>
+                {pictures.length > 0 && (
+                    <List>
+                        {pictures.map((image, index) => (
+                            <ListItem
+                                button
+                                selected={index === this.state.selectedThumbnail}
+                                onClick={event => this.handleListItemClick(event, index)}
+                                key={`RNG_${Math.floor(Math.random() * 10000)}`}>
+                                <Thumbnail classes={classes} image={image.data} />
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
                 <Grid item xs={4}>
-                    <Typography variant="h2" gutterBottom>
+                    <Typography variant="h3" gutterBottom>
                         Preview
                     </Typography>
-                    <Listing name={name} description={description} pictures={pictures} thumbnails={thumbnails} classes={classes} primaryImagePreview={primaryImagePreview} />
+                    <Listing name={name} selectedThumbnail={selectedThumbnail} description={description} pictures={pictures} classes={classes} />
                 </Grid>
             </Grid>
         );

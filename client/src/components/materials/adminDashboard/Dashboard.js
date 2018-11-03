@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import { styles } from './dashboardStyles';
+import styles from './styles/dashboardStyles';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
@@ -13,7 +13,7 @@ import { Login } from '../Login';
 class Dashboard extends React.Component {
     state = {
         open: true,
-        auth: false,
+        auth: true,
         anchorEl: null,
     };
 

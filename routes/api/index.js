@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const imgRoutes = require('./imgRoutes');
+const uploadRoutes = require('./uploadRoutes');
 
-// Image stuff routes
-router.use('/images', imgRoutes);
+// Matches with /api
+router.use('/products', uploadRoutes);
 
 module.exports = router;
