@@ -1,14 +1,28 @@
 const db = require('../models');
-const fs = require('fs');
-const path = require('path');
+
 module.exports = {
     upload: function(req, res) {
         const { name, description, pictures } = req.body;
-        db.Listing.create({
-            name: name,
-            description: description,
-            pictures: pictures,
-        });
-        return res.send(true);
+        try {
+            db.Listing.create({
+                name: name,
+                description: description,
+                pictures: pictures,
+            });
+            // return res.send(true);
+        } catch (err) {
+            console.log(err);
+            return res.send(false);
+        }
+    },
+    findAll: function(req, res) {
+        try {
+            db.Listing.findAll({
+                where: {},
+            }).then(data => res.json(data));
+        } catch (err) {
+            console.log(err);
+            return res.json(err);
+        }
     },
 };
