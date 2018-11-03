@@ -59,11 +59,20 @@ class MakeListing extends Component {
         });
     };
 
-    handleImageUpload = event => {
+    handleImageUpload = async event => {
         event.preventDefault();
         let unprocessedFiles = Array.from(event.target.files);
         let processedFiles = [];
-        unprocessedFiles = unprocessedFiles.filter(file => !this.state.pictures.includes(file));
+        unprocessedFiles = unprocessedFiles.filter(file => {
+            let ret = true;
+            for (let x of this.state.pictures) {
+                // Pretty sure going by name is NOT best practice. Hmm..
+                if (x.name === file.name) {
+                    ret = false;
+                }
+            }
+            return ret;
+        });
         for (let file of unprocessedFiles) {
             processedFiles.push(this._readUploadedFile(file));
         }
@@ -132,7 +141,8 @@ class MakeListing extends Component {
                             <ListItem
                                 button
                                 selected={index === this.state.selectedThumbnail}
-                                onClick={event => this.handleListItemClick(event, index)}>
+                                onClick={event => this.handleListItemClick(event, index)}
+                            >
                                 <Thumbnail classes={classes} image={image.data} />
                             </ListItem>
                         </Grid>

@@ -16,7 +16,7 @@ class ViewProducts extends Component {
     }
     render() {
         let { classes } = this.props;
-        let { products, pictures = [] } = this.state;
+        let { products, pictures } = this.state;
         return (
             <React.Fragment>
                 <Grid container justify="space-evenly">
@@ -25,9 +25,12 @@ class ViewProducts extends Component {
                             return (
                                 <Grid item key={`${Math.floor(Math.random() * 1000)}`} style={{ padding: '17px' }}>
                                     <Listing
-                                        pictures={pictures.map(e => {
-                                            return { name: e.name, data: e.pictures };
-                                        })}
+                                        pictures={
+                                            pictures.length &&
+                                            pictures.map(e => {
+                                                return { name: e.name, data: e.pictures };
+                                            })
+                                        }
                                         classes={classes}
                                         name={dbData.name}
                                         description={dbData.description}
