@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { compiler } from 'markdown-to-jsx';
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 
 const Listing = props => {
-    const { classes, pictures, name, description, selectedThumbnail } = props;
+    const { classes, picture, name, description } = props;
     return (
         <Card className={classes.card}>
-            {!pictures.length || (
-                <CardMedia
-                    className={classes.media}
-                    image={pictures[selectedThumbnail].data}
-                    title={pictures[0].name}
-                />
-            )}
+            {!picture && <CardMedia className={classes.media} image={picture.data} title={picture.name} />}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {name}

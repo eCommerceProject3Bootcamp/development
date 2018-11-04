@@ -5,6 +5,7 @@ const productsController = require('../../controllers/productsController');
 
 router.route('/').get(productsController.findAll);
 router.route('/:id').get(productsController.findOne);
+router.route('/findPics/:id').get(productsController.findPics);
 router.route('/pictures').get(productsController.pictures);
 router.route('/rows/:name').get(productsController.rows);
 router.route('/upload').post(productsController.upload);

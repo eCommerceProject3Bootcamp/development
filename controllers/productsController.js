@@ -1,12 +1,18 @@
 const db = require('../models');
 
 module.exports = {
-    findOne: function(req, res) {
+    findOne: async function(req, res) {
         try {
-            console.log(req.params.id);
-            db.Listing.findOne({
-                where: { id: req.params.id },
-            }).then(data => res.send(data));
+            let list = await db.Listing.findById(req.params.id);
+            res.send(list);
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    findPics: async function(req, res) {
+        try {
+            let pics = await db.Picture.findById(req.params.id);
+            res.send(pics);
         } catch (err) {
             console.log(err);
         }

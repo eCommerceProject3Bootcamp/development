@@ -128,9 +128,8 @@ class MakeListing extends Component {
                         </Typography>
                         <Listing
                             name={name}
-                            selectedThumbnail={selectedThumbnail}
                             description={description}
-                            pictures={pictures}
+                            picture={pictures[selectedThumbnail]}
                             classes={classes}
                         />
                     </Grid>
@@ -141,8 +140,7 @@ class MakeListing extends Component {
                             <ListItem
                                 button
                                 selected={index === this.state.selectedThumbnail}
-                                onClick={event => this.handleListItemClick(event, index)}
-                            >
+                                onClick={event => this.handleListItemClick(event, index)}>
                                 <Thumbnail classes={classes} image={image.data} />
                             </ListItem>
                         </Grid>
