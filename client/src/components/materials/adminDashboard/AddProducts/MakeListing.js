@@ -95,8 +95,17 @@ class MakeListing extends Component {
     formSubmit = async event => {
         event.preventDefault();
         try {
-            // In production, I'm not sure what this has to be changed to, if anything
-            const response = await axios.post('http://localhost:3001/api/products/upload', this.state);
+            // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
+            let { pictures, description, name, selectedThumbnail } = this.state;
+            let primary = pictures.pop(pictures[selectedThumbnail]);
+            let bodyData = {
+                primary: primary,
+                pictures: pictures,
+                description: description,
+                name: name,
+                selectedThumbnail: selectedThumbnail,
+            };
+            const response = await axios.post('http://localhost:3001/api/products/upload', bodyData);
             // console.log(response);
             response.status === 200 && this.resetState();
         } catch (err) {

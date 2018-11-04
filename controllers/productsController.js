@@ -35,10 +35,11 @@ module.exports = {
         }
     },
     upload: function(req, res) {
-        const { name, description, pictures } = req.body;
+        const { name, description, pictures, primary } = req.body;
         try {
             let data = {
                 Picture: {
+                    primary: primary,
                     pictures: pictures,
                 },
                 pictureId: '',

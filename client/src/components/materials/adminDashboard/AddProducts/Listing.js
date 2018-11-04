@@ -6,7 +6,7 @@ const Listing = props => {
     const { classes, picture, name, description } = props;
     return (
         <Card className={classes.card}>
-            {!picture && <CardMedia className={classes.media} image={picture.data} title={picture.name} />}
+            {picture && <CardMedia className={classes.media} image={picture.data} title={picture.name} />}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {name}

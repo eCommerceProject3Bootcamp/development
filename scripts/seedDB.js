@@ -7,47 +7,56 @@ const dbSeed = [
     {
         name: 'Chrysanthemum',
         description: 'A pretty flower.\n*This is some Markdown*\n****\n#This is too',
-        pictures: pictures[0],
+        primary: pictures[0],
+        pictures: [],
     },
     {
         name: 'Desert',
         description:
             "Cool desert. I think this is in Utah actually, I've seen it.\n*This is some Markdown*\n****\n#This is too",
-        pictures: pictures[1],
+        primary: pictures[1],
+        pictures: [],
     },
     {
         name: 'Hydrangeas',
         description: 'A pretty flower.\n*This is some Markdown*\n****\n#This is too',
-        pictures: pictures[2],
+        primary: pictures[2],
+        pictures: [],
     },
     {
         name: 'Jellyfish',
         description:
             'These are so cool! No brain, just nervous system. Really basic one too.\n*This is some Markdown*\n****\n#This is too',
-        pictures: pictures[3],
+        primary: pictures[3],
+        pictures: [],
     },
     {
         name: 'Koala',
         description:
             "These things might as well have no brain, apparently. They're really dumb!\n*This is some Markdown*\n****\n#This is too",
-        pictures: pictures[4],
+        primary: pictures[4],
+        pictures: [],
     },
     {
         name: 'Lighthouse',
         description:
             '"Don\'t ever let anyone put out your light because they are blinded by it." -- Shannon L. Adler.\n*This is some Markdown*\n****\n#This is too',
-        pictures: pictures[5],
+        primary: pictures[5],
+        pictures: [],
     },
     {
         name: 'Penguins',
-        description: '"Dr. Ainley... can penguins go mad?" -- Werner Herzog\n*This is some Markdown*\n****\n#This is too',
-        pictures: pictures[6],
+        description:
+            '"Dr. Ainley... can penguins go mad?" -- Werner Herzog\n*This is some Markdown*\n****\n#This is too',
+        primary: pictures[6],
+        pictures: [],
     },
     {
         name: 'Tulips',
         description:
             'A pretty flower. There was some kind of wacky stock market weirdness with Tulips, in Denmark... if I remember right! Look it up.\n*This is some Markdown*\n****\n#This is too',
-        pictures: pictures[7],
+        primary: pictures[7],
+        pictures: [],
     },
 ];
 
@@ -64,6 +73,7 @@ seed = async function() {
     for (let x of dbSeed) {
         let data = {
             Picture: {
+                primary: x.primary[0],
                 pictures: x.pictures,
             },
             pictureId: '',

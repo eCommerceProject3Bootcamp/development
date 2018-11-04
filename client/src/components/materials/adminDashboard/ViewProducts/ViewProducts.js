@@ -6,6 +6,7 @@ import axios from 'axios';
 // import Listing from '../AddProducts/Listing';
 import styles from '../styles/makeListingStyles';
 import ListingInput from '../AddProducts/ListingInput';
+import Listing from '../AddProducts/Listing';
 
 class ViewProducts extends Component {
     state = {
@@ -31,7 +32,7 @@ class ViewProducts extends Component {
         let data = await axios.get(`http://localhost:3001/api/products/${id}`);
         this.setState({ selected: id, currentProduct: data.data });
         let pictures = await axios.get(`http://localhost:3001/api/products/findPics/${data.data.PictureId}`);
-        this.setState({ currentProductPictures: pictures.data.pictures });
+        this.setState({ currentProductPictures: { primary: pictures.data.primary, pictures: pictures.data.pictures } });
     };
 
     handleTextChange = name => event => {
@@ -42,7 +43,7 @@ class ViewProducts extends Component {
 
     render() {
         let { classes } = this.props;
-        let { names, currentProduct } = this.state;
+        let { names, currentProduct, currentProductPictures } = this.state;
         return (
             <React.Fragment>
                 <Grid container>
@@ -66,12 +67,20 @@ class ViewProducts extends Component {
                     </Grid>
                     {/* Now, to build something to use this.state.currentProduct (a string representing an exact ID of a database object -- where user can change things then post it back) */}
                     {Object.keys(currentProduct).length > 0 && (
-                        <ListingInput
-                            textValues={currentProduct}
-                            classes={classes}
-                            handleTextChange={event => this.handleTextChange(event)}
-                            formSubmit={event => event.preventDefault()} // placeholder...
-                        />
+                        <React.Fragment>
+                            <ListingInput
+                                textValues={currentProduct}
+                                classes={classes}
+                                handleTextChange={event => this.handleTextChange(event)}
+                                formSubmit={event => event.preventDefault()} // placeholder...
+                            />
+                            <Listing
+                                classes={classes}
+                                picture={currentProductPictures.primary}
+                                name={currentProduct.name}
+                                description={currentProduct.description}
+                            />
+                        </React.Fragment>
                     )}
                 </Grid>
             </React.Fragment>
