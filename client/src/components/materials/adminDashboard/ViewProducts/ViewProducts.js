@@ -1,43 +1,76 @@
 import React, { Component } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Input } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import Listing from '../AddProducts/Listing';
+// import Listing from '../AddProducts/Listing';
 import styles from '../styles/makeListingStyles';
+import ListingInput from '../AddProducts/ListingInput';
 
 class ViewProducts extends Component {
     state = {
-        products: [],
-        pictures: [],
+        names: [],
+        selected: '',
+        currentProduct: {},
     };
     componentDidMount() {
-        axios.get('http://localhost:3001/api/products/').then(data => this.setState({ products: data.data }));
+        axios.get('http://localhost:3001/api/products/rows/id,name').then(data =>
+            this.setState(state => {
+                let { names } = state;
+                names.push(
+                    ...data.data.map(e => {
+                        return { string: `${e.id}: ${e.name}`, id: e.id };
+                    })
+                );
+                return state;
+            })
+        );
+    }
+    grabById(id) {
+        axios
+            .get(`http://localhost:3001/api/products/${id}`)
+            .then(data => this.setState({ selected: id, currentProduct: data.data }));
+    }
+    handleTextChange(val) {
+        this.setState(state => {
+            let { currentProduct } = state;
+            console.log(currentProduct);
+        });
     }
     render() {
         let { classes } = this.props;
-        let { products, pictures } = this.state;
+        let { names, currentProduct } = this.state;
         return (
             <React.Fragment>
-                <Grid container justify="space-evenly">
-                    {products.length &&
-                        products.map(dbData => {
-                            return (
-                                <Grid item key={`${Math.floor(Math.random() * 1000)}`} style={{ padding: '17px' }}>
-                                    <Listing
-                                        pictures={
-                                            pictures.length &&
-                                            pictures.map(e => {
-                                                return { name: e.name, data: e.pictures };
-                                            })
-                                        }
-                                        classes={classes}
-                                        name={dbData.name}
-                                        description={dbData.description}
-                                    />
-                                </Grid>
-                            );
-                        })}
+                <Grid container>
+                    <Grid item>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
+                            <NativeSelect
+                                value={this.state.selected}
+                                onChange={event => this.grabById(event.target.value)}
+                                input={<Input name="product" id="product-native-helper" />}
+                            >
+                                <option value="" />
+                                {!names.length ||
+                                    names.map(name => (
+                                        <option key={name.id} value={name.id}>
+                                            {name.string}
+                                        </option>
+                                    ))}
+                            </NativeSelect>
+                            {/* <FormHelperText>Select Listing</FormHelperText> */}
+                        </FormControl>
+                    </Grid>
+                    {/* Now, to build something to use this.state.currentProduct (a string representing an exact ID of a database object -- where user can change things then post it back) */}
+                    {/* {Object.keys(currentProduct).length > 0 && (
+                        <ListingInput
+                            textValues={currentProduct}
+                            classes={classes}
+                            handleTextChange={this.handleTextChange}
+                            formSubmit={}
+                        />
+                    )} */}
                 </Grid>
             </React.Fragment>
         );

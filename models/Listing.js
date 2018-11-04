@@ -18,6 +18,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             defaultValue: 'Electronics',
         },
+        qty: {
+            type: DataTypes.INTEGER,
+            defaultValue: 1,
+        },
     });
     Listing.associate = function(models) {
         Listing.belongsTo(models.Picture);

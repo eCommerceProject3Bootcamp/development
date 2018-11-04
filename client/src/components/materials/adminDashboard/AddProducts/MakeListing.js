@@ -118,7 +118,7 @@ class MakeListing extends Component {
                             handleTextChange={this.handleTextChange}
                             formSubmit={this.formSubmit}
                             classes={classes}
-                            handleImageUpload={this.handleImageUpload}
+                            handleImage={this.handleImageUpload}
                             textValues={{ name: this.state.name, description: this.state.description }}
                         />
                     </Grid>
@@ -135,7 +135,7 @@ class MakeListing extends Component {
                         />
                     </Grid>
                 </Grid>
-                {pictures.length > 0 &&
+                {!pictures.length ||
                     pictures.map((image, index) => (
                         <Grid item key={`RNG_${Math.floor(Math.random() * 10000)}`}>
                             <ListItem

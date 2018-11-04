@@ -9,7 +9,7 @@ class ListingInput extends Component {
         }, 250);
     }
     render(props) {
-        const { handleTextChange, formSubmit, classes, handleImageUpload, textValues } = this.props;
+        const { handleTextChange, formSubmit, classes, handleImage, textValues } = this.props;
         return (
             <form onSubmit={e => formSubmit(e)}>
                 <Grid item xs={12}>
@@ -35,25 +35,27 @@ class ListingInput extends Component {
                         margin="normal"
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <input
-                        className={classes.input}
-                        style={{
-                            display: 'none',
-                        }}
-                        id="file-upload"
-                        multiple
-                        type="file"
-                        accept="image/*"
-                        onChange={e => handleImageUpload(e)}
-                    />
-                    <label htmlFor="file-upload" ref={x => (this._inputLabel = x)}>
-                        <Button onClick={() => this._chooseFileClick()}>
-                            <InsertPhotoIcon />
-                            Add Images
-                        </Button>
-                    </label>
-                </Grid>
+                {handleImage && (
+                    <Grid item xs={12}>
+                        <input
+                            className={classes.input}
+                            style={{
+                                display: 'none',
+                            }}
+                            id="file-upload"
+                            multiple
+                            type="file"
+                            accept="image/*"
+                            onChange={e => handleImage(e)}
+                        />
+                        <label htmlFor="file-upload" ref={x => (this._inputLabel = x)}>
+                            <Button onClick={() => this._chooseFileClick()}>
+                                <InsertPhotoIcon />
+                                Add Images
+                            </Button>
+                        </label>
+                    </Grid>
+                )}
                 <Button variant="contained" type="submit" className={classes.button}>
                     Submit
                 </Button>

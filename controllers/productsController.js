@@ -1,6 +1,33 @@
 const db = require('../models');
 
 module.exports = {
+    findOne: function(req, res) {
+        try {
+            console.log(req.params.id);
+            db.Listing.findOne({
+                where: { id: req.params.id },
+            }).then(data => res.send(data));
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    rows: function(req, res) {
+        try {
+            db.Listing.findAll({
+                attributes: req.params.name.split(','),
+            }).then(data => res.send(data));
+        } catch (err) {
+            res.send(err);
+        }
+    },
+    update: function(req, res) {
+        // req.params.id is target here
+        // req.body will contain data for updating
+        try {
+        } catch (err) {
+            console.log(err);
+        }
+    },
     upload: function(req, res) {
         const { name, description, pictures } = req.body;
         try {
