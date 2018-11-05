@@ -45,45 +45,48 @@ class ViewProducts extends Component {
         let { classes } = this.props;
         let { names, currentProduct, currentProductPictures } = this.state;
         return (
-            <React.Fragment>
-                <Grid container>
-                    <Grid item>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
-                            <NativeSelect
-                                value={this.state.selected}
-                                onChange={event => this.grabById(event.target.value)}
-                                input={<Input name="product" id="product-native-helper" />}>
-                                <option value="" />
-                                {!names.length ||
-                                    names.map(name => (
-                                        <option key={name.id} value={name.id}>
-                                            {name.string}
-                                        </option>
-                                    ))}
-                            </NativeSelect>
-                            {/* <FormHelperText>Select Listing</FormHelperText> */}
-                        </FormControl>
-                    </Grid>
-                    {/* Now, to build something to use this.state.currentProduct (a string representing an exact ID of a database object -- where user can change things then post it back) */}
+            <Grid container spacing={40}>
+                <Grid item>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
+                        <NativeSelect
+                            value={this.state.selected}
+                            onChange={event => this.grabById(event.target.value)}
+                            input={<Input name="product" id="product-native-helper" />}>
+                            <option value="" />
+                            {!names.length ||
+                                names.map(name => (
+                                    <option key={name.id} value={name.id}>
+                                        {name.string}
+                                    </option>
+                                ))}
+                        </NativeSelect>
+                        {/* <FormHelperText>Select Listing</FormHelperText> */}
+                    </FormControl>
+                </Grid>
+                {/* Now, to build something to use this.state.currentProduct (a string representing an exact ID of a database object -- where user can change things then post it back) */}
+                {/* Yikes. Don't like this solution at all, but here we are. */}
+                <Grid item>
                     {Object.keys(currentProduct).length > 0 && (
-                        <React.Fragment>
-                            <ListingInput
-                                textValues={currentProduct}
-                                classes={classes}
-                                handleTextChange={event => this.handleTextChange(event)}
-                                formSubmit={event => event.preventDefault()} // placeholder...
-                            />
-                            <Listing
-                                classes={classes}
-                                picture={currentProductPictures.primary}
-                                name={currentProduct.name}
-                                description={currentProduct.description}
-                            />
-                        </React.Fragment>
+                        <ListingInput
+                            textValues={currentProduct}
+                            classes={classes}
+                            handleTextChange={event => this.handleTextChange(event)}
+                            formSubmit={event => event.preventDefault()} // placeholder...
+                        />
                     )}
                 </Grid>
-            </React.Fragment>
+                <Grid item>
+                    {Object.keys(currentProduct).length > 0 && (
+                        <Listing
+                            classes={classes}
+                            picture={currentProductPictures.primary}
+                            name={currentProduct.name}
+                            description={currentProduct.description}
+                        />
+                    )}
+                </Grid>
+            </Grid>
         );
     }
 }
