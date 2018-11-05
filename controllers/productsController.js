@@ -29,7 +29,13 @@ module.exports = {
     update: function(req, res) {
         // req.params.id is target here
         // req.body will contain data for updating
+        console.log(req.params.id, req.body);
         try {
+            db.Listing.update(req.body, {
+                where: {
+                    id: req.params.id,
+                },
+            }).then(data => res.send(data));
         } catch (err) {
             console.log(err);
         }

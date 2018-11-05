@@ -10,6 +10,6 @@ router.route('/pictures').get(productsController.pictures);
 router.route('/rows/:name').get(productsController.rows);
 router.route('/upload').post(productsController.upload);
 // router.route('/delete').delete();
-router.route('/update:id').put(productsController.update);
+router.route('/update/:id').put(productsController.update);
 
 module.exports = router;

@@ -28,6 +28,23 @@ class ViewProducts extends Component {
         });
     }
 
+    formSubmit = async event => {
+        event.preventDefault();
+        try {
+            // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
+            let { PictureId, id, name, description, category } = this.state.currentProduct;
+            let bodyData = {
+                name: name,
+                description: description,
+                category: category,
+            };
+            const response = await axios.put(`http://localhost:3001/api/products/update/${id}`, bodyData);
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     grabById = async id => {
         let data = await axios.get(`http://localhost:3001/api/products/${id}`);
         this.setState({ selected: id, currentProduct: data.data });
@@ -72,7 +89,7 @@ class ViewProducts extends Component {
                             textValues={currentProduct}
                             classes={classes}
                             handleTextChange={event => this.handleTextChange(event)}
-                            formSubmit={event => event.preventDefault()} // placeholder...
+                            formSubmit={this.formSubmit} // placeholder...
                         />
                     )}
                 </Grid>
