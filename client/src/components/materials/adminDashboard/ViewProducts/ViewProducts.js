@@ -11,9 +11,9 @@ import Listing from '../AddProducts/Listing';
 class ViewProducts extends Component {
     state = {
         names: [],
-        selected: '',
-        currentProduct: {},
-        currentProductPictures: [],
+        selectedId: '',
+        grabbedProducts: [],
+        selectedProduct: null,
     };
     componentDidMount() {
         axios.get('http://localhost:3001/api/products/rows/id,name').then(data => {
@@ -32,7 +32,7 @@ class ViewProducts extends Component {
         event.preventDefault();
         try {
             // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
-            let { PictureId, id, name, description, category } = this.state.currentProduct;
+            let { PictureId, id, name, description, category } = this.state.selectedProduct;
             let bodyData = {
                 name: name,
                 description: description,
@@ -46,30 +46,68 @@ class ViewProducts extends Component {
     };
 
     grabById = async id => {
+        // Look to see if it exists in state already
+        const { grabbedProducts } = this.state;
+        for (let x in grabbedProducts) {
+            let sh = grabbedProducts[x];
+            if (parseInt(id) === sh.listing.id) {
+                this.setState({ selectedId: id, selectedProduct: sh });
+                return;
+            }
+        }
+        // If NOT, then vvvv
         let data = await axios.get(`http://localhost:3001/api/products/${id}`);
-        this.setState({ selected: id, currentProduct: data.data });
         let pictures = await axios.get(`http://localhost:3001/api/products/findPics/${data.data.PictureId}`);
-        this.setState({ currentProductPictures: { primary: pictures.data.primary, pictures: pictures.data.pictures } });
+        let fullProduct = {
+            listing: data.data,
+            pictures: { primary: pictures.data.primary, rest: pictures.data.pictures },
+        };
+        this.setState(prevState => {
+            /// What happens if you don't do "...prevState";
+            return {
+                selectedId: id,
+                selectedProduct: fullProduct,
+                grabbedProducts: [...prevState.grabbedProducts, fullProduct],
+            };
+        });
     };
 
     handleTextChange = name => event => {
-        let updatedProduct = this.state.currentProduct;
+        let updatedProduct = this.state.selectedProduct.listing;
         updatedProduct[name] = event.target.value;
-        this.setState({ currentProduct: updatedProduct });
+        this.setState(prevState => {
+            let retPro = {
+                listing: updatedProduct,
+                pictures: prevState.selectedProduct.pictures,
+            };
+
+            return {
+                selectedProduct: retPro,
+                grabbedProducts: prevState.grabbedProducts.map(e => {
+                    if (e === prevState.selectedProduct) {
+                        return retPro;
+                    } else {
+                        return e;
+                    }
+                }),
+            };
+        });
+        // this.setState({ currentProduct: updatedProduct });
     };
 
     render() {
         let { classes } = this.props;
-        let { names, currentProduct, currentProductPictures } = this.state;
+        let { names, selectedProduct } = this.state;
         return (
             <Grid container spacing={40}>
                 <Grid item>
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
                         <NativeSelect
-                            value={this.state.selected}
+                            value={this.state.selectedId}
                             onChange={event => this.grabById(event.target.value)}
-                            input={<Input name="product" id="product-native-helper" />}>
+                            input={<Input name="product" id="product-native-helper" />}
+                        >
                             <option value="" />
                             {!names.length ||
                                 names.map(name => (
@@ -81,12 +119,10 @@ class ViewProducts extends Component {
                         {/* <FormHelperText>Select Listing</FormHelperText> */}
                     </FormControl>
                 </Grid>
-                {/* Now, to build something to use this.state.currentProduct (a string representing an exact ID of a database object -- where user can change things then post it back) */}
-                {/* Yikes. Don't like this solution at all, but here we are. */}
                 <Grid item>
-                    {Object.keys(currentProduct).length > 0 && (
+                    {selectedProduct && (
                         <ListingInput
-                            textValues={currentProduct}
+                            textValues={selectedProduct.listing}
                             classes={classes}
                             handleTextChange={event => this.handleTextChange(event)}
                             formSubmit={this.formSubmit} // placeholder...
@@ -94,12 +130,12 @@ class ViewProducts extends Component {
                     )}
                 </Grid>
                 <Grid item>
-                    {Object.keys(currentProduct).length > 0 && (
+                    {selectedProduct && (
                         <Listing
                             classes={classes}
-                            picture={currentProductPictures.primary}
-                            name={currentProduct.name}
-                            description={currentProduct.description}
+                            picture={selectedProduct.pictures.primary}
+                            name={selectedProduct.listing.name}
+                            description={selectedProduct.listing.description}
                         />
                     )}
                 </Grid>
