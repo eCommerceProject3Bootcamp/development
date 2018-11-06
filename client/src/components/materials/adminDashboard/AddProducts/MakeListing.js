@@ -97,13 +97,11 @@ class MakeListing extends Component {
         try {
             // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
             let { pictures, description, name, selectedThumbnail } = this.state;
-            let primary = pictures.pop(pictures[selectedThumbnail]);
             let bodyData = {
-                primary: primary,
+                primary: selectedThumbnail,
                 pictures: pictures,
                 description: description,
                 name: name,
-                selectedThumbnail: selectedThumbnail,
             };
             const response = await axios.post('http://localhost:3001/api/products/upload', bodyData);
             // console.log(response);
@@ -149,7 +147,8 @@ class MakeListing extends Component {
                             <ListItem
                                 button
                                 selected={index === this.state.selectedThumbnail}
-                                onClick={event => this.handleListItemClick(event, index)}>
+                                onClick={event => this.handleListItemClick(event, index)}
+                            >
                                 <Thumbnail classes={classes} image={image.data} />
                             </ListItem>
                         </Grid>

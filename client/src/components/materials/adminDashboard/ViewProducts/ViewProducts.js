@@ -3,7 +3,6 @@ import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Input } fr
 // import { Add } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-// import Listing from '../AddProducts/Listing';
 import styles from '../styles/makeListingStyles';
 import ListingInput from '../AddProducts/ListingInput';
 import Listing from '../AddProducts/Listing';
@@ -44,11 +43,17 @@ class ViewProducts extends Component {
     };
 
     grabById = async id => {
+        // If blank
+        if (id === '') {
+            this.setState({ selectedProduct: null });
+            return;
+        }
         // Look to see if it exists in state already
         const { grabbedProducts } = this.state;
-        for (let x of grabbedProducts) {
-            if (parseInt(id) === x.listing.id) {
-                this.setState({ selectedProduct: x });
+        for (let x in grabbedProducts) {
+            let y = grabbedProducts[x];
+            if (parseInt(id) === y.listing.id) {
+                this.setState({ selectedProduct: parseInt(x) });
                 return;
             }
         }
@@ -57,18 +62,19 @@ class ViewProducts extends Component {
         let pictures = await axios.get(`http://localhost:3001/api/products/findPics/${data.data.PictureId}`);
         let fullProduct = {
             listing: data.data,
-            pictures: { primary: pictures.data.primary, rest: pictures.data.pictures },
+            pictures: { primary: pictures.data.primary, pictures: pictures.data.pictures },
         };
         this.setState(prevState => {
             return {
-                selectedProduct: fullProduct,
                 grabbedProducts: [...prevState.grabbedProducts, fullProduct],
+                selectedProduct: grabbedProducts.length,
             };
         });
     };
 
     handleTextChange = name => event => {
-        let updatedProduct = this.state.selectedProduct.listing;
+        let { selectedProduct, grabbedProducts } = this.state;
+        let updatedProduct = grabbedProducts[selectedProduct].listing;
         updatedProduct[name] = event.target.value;
         this.setState(prevState => {
             let retPro = {
@@ -77,7 +83,6 @@ class ViewProducts extends Component {
             };
 
             return {
-                selectedProduct: retPro,
                 grabbedProducts: prevState.grabbedProducts.map(e => {
                     if (e === prevState.selectedProduct) {
                         return retPro;
@@ -92,14 +97,16 @@ class ViewProducts extends Component {
 
     render() {
         let { classes } = this.props;
-        let { names, selectedProduct } = this.state;
+        let { names, selectedProduct, grabbedProducts } = this.state;
+        let current = grabbedProducts[selectedProduct];
+        let primary = current && current.pictures.pictures[current.pictures.primary];
         return (
             <Grid container spacing={40}>
                 <Grid item>
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
                         <NativeSelect
-                            value={(selectedProduct && selectedProduct.listing.id) || ''}
+                            value={(current && current.listing.id) || ''}
                             onChange={event => this.grabById(event.target.value)}
                             input={<Input name="product" id="product-native-helper" />}
                         >
@@ -115,9 +122,9 @@ class ViewProducts extends Component {
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    {selectedProduct && (
+                    {current && (
                         <ListingInput
-                            textValues={selectedProduct.listing}
+                            textValues={current.listing}
                             classes={classes}
                             handleTextChange={event => this.handleTextChange(event)}
                             formSubmit={this.formSubmit}
@@ -125,12 +132,12 @@ class ViewProducts extends Component {
                     )}
                 </Grid>
                 <Grid item>
-                    {selectedProduct && (
+                    {current && (
                         <Listing
                             classes={classes}
-                            picture={selectedProduct.pictures.primary}
-                            name={selectedProduct.listing.name}
-                            description={selectedProduct.listing.description}
+                            picture={primary}
+                            name={current.listing.name}
+                            description={current.listing.description}
                         />
                     )}
                 </Grid>
