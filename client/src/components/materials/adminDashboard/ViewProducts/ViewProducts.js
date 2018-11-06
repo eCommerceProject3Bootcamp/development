@@ -28,16 +28,15 @@ class ViewProducts extends Component {
     }
 
     formSubmit = async event => {
+        // Here, need to pass entire "grabbedProducts" array, then on the backend, update en masse.
+        // TODO: support updating pictures, as well. This will take some sequelize magic // research, and we all know how fun that is.
         event.preventDefault();
         try {
             // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
-            let { PictureId, id, name, description, category } = this.state.selectedProduct;
-            let bodyData = {
-                name: name,
-                description: description,
-                category: category,
-            };
-            const response = await axios.put(`http://localhost:3001/api/products/update/${id}`, bodyData);
+            let promiseArr = this.state.grabbedProducts.map(e =>
+                axios.put(`http://localhost:3001/api/products/update/${e.listing.id}`, e)
+            );
+            let response = await Promise.all(promiseArr);
             console.log(response);
         } catch (err) {
             console.log(err);
@@ -61,7 +60,6 @@ class ViewProducts extends Component {
             pictures: { primary: pictures.data.primary, rest: pictures.data.pictures },
         };
         this.setState(prevState => {
-            /// What happens if you don't do "...prevState";
             return {
                 selectedProduct: fullProduct,
                 grabbedProducts: [...prevState.grabbedProducts, fullProduct],
@@ -122,7 +120,7 @@ class ViewProducts extends Component {
                             textValues={selectedProduct.listing}
                             classes={classes}
                             handleTextChange={event => this.handleTextChange(event)}
-                            formSubmit={this.formSubmit} // placeholder...
+                            formSubmit={this.formSubmit}
                         />
                     )}
                 </Grid>

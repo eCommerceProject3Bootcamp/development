@@ -29,9 +29,10 @@ module.exports = {
     update: function(req, res) {
         // req.params.id is target here
         // req.body will contain data for updating
-        console.log(req.params.id, req.body);
+        let { listing, pictures } = req.body;
+        // Doesn't support updating pictures yet.
         try {
-            db.Listing.update(req.body, {
+            db.Listing.update(listing, {
                 where: {
                     id: req.params.id,
                 },
