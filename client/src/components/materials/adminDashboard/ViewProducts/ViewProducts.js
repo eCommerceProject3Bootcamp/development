@@ -11,20 +11,19 @@ import Listing from '../AddProducts/Listing';
 class ViewProducts extends Component {
     state = {
         names: [],
-        selectedId: '',
         grabbedProducts: [],
         selectedProduct: null,
     };
     componentDidMount() {
+        let { names } = this.state;
         axios.get('http://localhost:3001/api/products/rows/id,name').then(data => {
-            let nData = data.data.map(e => {
-                return { string: `${e.id}: ${e.name}`, id: e.id };
+            this.setState(prevState => {
+                return {
+                    names: data.data.map(e => {
+                        return { string: `${e.id}: ${e.name}`, id: e.id };
+                    }),
+                };
             });
-            nData = nData.filter(e => !this.state.names.includes(e));
-            if (!nData.length) {
-                return;
-            }
-            this.setState({ names: [...this.state.names, ...nData] });
         });
     }
 
@@ -48,10 +47,9 @@ class ViewProducts extends Component {
     grabById = async id => {
         // Look to see if it exists in state already
         const { grabbedProducts } = this.state;
-        for (let x in grabbedProducts) {
-            let sh = grabbedProducts[x];
-            if (parseInt(id) === sh.listing.id) {
-                this.setState({ selectedId: id, selectedProduct: sh });
+        for (let x of grabbedProducts) {
+            if (parseInt(id) === x.listing.id) {
+                this.setState({ selectedProduct: x });
                 return;
             }
         }
@@ -65,7 +63,6 @@ class ViewProducts extends Component {
         this.setState(prevState => {
             /// What happens if you don't do "...prevState";
             return {
-                selectedId: id,
                 selectedProduct: fullProduct,
                 grabbedProducts: [...prevState.grabbedProducts, fullProduct],
             };
@@ -104,7 +101,7 @@ class ViewProducts extends Component {
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
                         <NativeSelect
-                            value={this.state.selectedId}
+                            value={(selectedProduct && selectedProduct.listing.id) || ''}
                             onChange={event => this.grabById(event.target.value)}
                             input={<Input name="product" id="product-native-helper" />}
                         >
