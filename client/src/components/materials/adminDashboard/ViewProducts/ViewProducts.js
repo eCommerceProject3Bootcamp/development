@@ -74,17 +74,18 @@ class ViewProducts extends Component {
 
     handleTextChange = name => event => {
         let { selectedProduct, grabbedProducts } = this.state;
-        let updatedProduct = grabbedProducts[selectedProduct].listing;
+        let current = grabbedProducts[selectedProduct];
+        let updatedProduct = current.listing;
         updatedProduct[name] = event.target.value;
         this.setState(prevState => {
             let retPro = {
                 listing: updatedProduct,
-                pictures: prevState.selectedProduct.pictures,
+                pictures: current.pictures,
             };
 
             return {
                 grabbedProducts: prevState.grabbedProducts.map(e => {
-                    if (e === prevState.selectedProduct) {
+                    if (e === current) {
                         return retPro;
                     } else {
                         return e;
