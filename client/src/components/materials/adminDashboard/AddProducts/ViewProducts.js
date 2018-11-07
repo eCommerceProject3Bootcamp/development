@@ -32,9 +32,7 @@ class ViewProducts extends Component {
         event.preventDefault();
         try {
             // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
-            let promiseArr = this.state.grabbedProducts.map(e =>
-                axios.put(`http://localhost:3001/api/products/update/${e.listing.id}`, e)
-            );
+            let promiseArr = this.state.grabbedProducts.map(e => axios.put(`http://localhost:3001/api/products/update/${e.listing.id}`, e));
             let response = await Promise.all(promiseArr);
             console.log(response);
         } catch (err) {
@@ -95,21 +93,18 @@ class ViewProducts extends Component {
         });
         // this.setState({ currentProduct: updatedProduct });
     };
-
+    sampleListing = { listing: { name: '', description: '', price: '' }, pictures: { pictures: [], primary: null } };
     render() {
         let { classes } = this.props;
         let { names, selectedProduct, grabbedProducts } = this.state;
-        let current = grabbedProducts[selectedProduct];
+        let current = grabbedProducts[selectedProduct] || this.sampleListing;
         let primary = current && current.pictures.pictures[current.pictures.primary];
         return (
             <Grid container spacing={40}>
                 <Grid item>
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
-                        <NativeSelect
-                            value={(current && current.listing.id) || ''}
-                            onChange={event => this.grabById(event.target.value)}
-                            input={<Input name="product" id="product-native-helper" />}>
+                        <NativeSelect value={(current && current.listing.id) || ''} onChange={event => this.grabById(event.target.value)} input={<Input name="product" id="product-native-helper" />}>
                             <option value="" />
                             {!names.length ||
                                 names.map(name => (
@@ -122,24 +117,10 @@ class ViewProducts extends Component {
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    {current && (
-                        <ListingInput
-                            textValues={current.listing}
-                            classes={classes}
-                            handleTextChange={event => this.handleTextChange(event)}
-                            formSubmit={this.formSubmit}
-                        />
-                    )}
+                    <ListingInput textValues={current.listing} classes={classes} handleTextChange={event => this.handleTextChange(event)} formSubmit={this.formSubmit} />
                 </Grid>
                 <Grid item>
-                    {current && (
-                        <Listing
-                            classes={classes}
-                            picture={primary}
-                            name={current.listing.name}
-                            description={current.listing.description}
-                        />
-                    )}
+                    <Listing classes={classes} picture={primary} name={current.listing.name} description={current.listing.description} />
                 </Grid>
             </Grid>
         );
