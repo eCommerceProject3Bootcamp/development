@@ -8,6 +8,7 @@ class ListingInput extends Component {
             this._inputLabel.click();
         }, 250);
     }
+
     render(props) {
         const { handleTextChange, formSubmit, classes, handleImage, textValues } = this.props;
         return (
@@ -35,6 +36,18 @@ class ListingInput extends Component {
                         margin="normal"
                     />
                 </Grid>
+                <TextField
+                    id="price"
+                    label="$"
+                    value={textValues.price || ''}
+                    onChange={handleTextChange('price')}
+                    type="number"
+                    className={classes.textField}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    margin="normal"
+                />
                 {handleImage && (
                     <Grid item xs={12}>
                         <input

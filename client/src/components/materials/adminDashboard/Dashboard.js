@@ -8,7 +8,7 @@ import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBase
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
 import { MainListItems, secondaryListItems } from './drawerItems';
 import MakeListing from './AddProducts/MakeListing';
-import ViewProducts from './ViewProducts/ViewProducts';
+import ViewProducts from './AddProducts/ViewProducts';
 import Login from '../Login';
 
 class Dashboard extends React.Component {
@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
         open: false,
         isAuthenticated: true,
         anchorEl: null,
-        currentPage: 'ViewProducts',
+        currentPage: 'AddProducts',
     };
 
     handleDashBoardChange = arg => {

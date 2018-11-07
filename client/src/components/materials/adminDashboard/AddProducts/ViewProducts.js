@@ -4,8 +4,8 @@ import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Input } fr
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import styles from '../styles/makeListingStyles';
-import ListingInput from '../AddProducts/ListingInput';
-import Listing from '../AddProducts/Listing';
+import ListingInput from './ListingInput';
+import Listing from './Listing';
 
 class ViewProducts extends Component {
     state = {
@@ -109,8 +109,7 @@ class ViewProducts extends Component {
                         <NativeSelect
                             value={(current && current.listing.id) || ''}
                             onChange={event => this.grabById(event.target.value)}
-                            input={<Input name="product" id="product-native-helper" />}
-                        >
+                            input={<Input name="product" id="product-native-helper" />}>
                             <option value="" />
                             {!names.length ||
                                 names.map(name => (

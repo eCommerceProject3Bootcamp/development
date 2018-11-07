@@ -14,6 +14,7 @@ class MakeListing extends Component {
         pictures: [],
         description: '',
         name: '',
+        price: null,
         selectedThumbnail: 0,
         successfulUpload: null,
     };
@@ -23,6 +24,7 @@ class MakeListing extends Component {
             pictures: [],
             description: '',
             name: '',
+            price: null,
             selectedThumbnail: 0,
             successfulUpload: true,
         };
@@ -96,11 +98,12 @@ class MakeListing extends Component {
         event.preventDefault();
         try {
             // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
-            let { pictures, description, name, selectedThumbnail } = this.state;
+            let { pictures, description, name, selectedThumbnail, price } = this.state;
             let bodyData = {
                 primary: selectedThumbnail,
                 pictures: pictures,
                 description: description,
+                price: price,
                 name: name,
             };
             const response = await axios.post('http://localhost:3001/api/products/upload', bodyData);
@@ -113,7 +116,8 @@ class MakeListing extends Component {
 
     render() {
         const { classes } = this.props;
-        const { description, name, pictures, selectedThumbnail } = this.state;
+        const { description, name, price, pictures, selectedThumbnail } = this.state;
+        let textValues = { name: name, price: price, description: description };
         return (
             <Grid container>
                 <Grid container justify="space-between" spacing={24} className={classes.topMargin}>
@@ -126,7 +130,7 @@ class MakeListing extends Component {
                             formSubmit={this.formSubmit}
                             classes={classes}
                             handleImage={this.handleImageUpload}
-                            textValues={{ name: this.state.name, description: this.state.description }}
+                            textValues={textValues}
                         />
                     </Grid>
                     <Grid item xs={4}>
@@ -147,8 +151,7 @@ class MakeListing extends Component {
                             <ListItem
                                 button
                                 selected={index === this.state.selectedThumbnail}
-                                onClick={event => this.handleListItemClick(event, index)}
-                            >
+                                onClick={event => this.handleListItemClick(event, index)}>
                                 <Thumbnail classes={classes} image={image.data} />
                             </ListItem>
                         </Grid>
