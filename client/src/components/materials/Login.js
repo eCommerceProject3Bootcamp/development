@@ -1,6 +1,6 @@
 import React from 'react';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Menu, MenuItem, IconButton, FormControlLabel, Switch } from '@material-ui/core';
+import { Menu, MenuItem, ListItemIcon, FormControlLabel, Switch } from '@material-ui/core';
 
 const handleLoginButton = link => {
     console.log(link);
@@ -10,21 +10,21 @@ const Profile = 'Profile Placeholder';
 const MyAccount = 'My Account Placeholder';
 
 const Login = props => {
-    const { auth, anchorEl, handleLoginMenu, handleLoginChange } = props;
+    const { auth, anchorEl, handleLoginMenu, handleLoginChange, opened } = props;
     const open = Boolean(anchorEl);
 
     return (
         <span>
             {auth && (
                 <span>
-                    <IconButton
+                    <ListItemIcon
                         aria-owns={open ? 'menu-appbar' : null}
                         aria-haspopup="true"
                         onClick={handleLoginMenu}
                         color="inherit"
                     >
                         <AccountCircle />
-                    </IconButton>
+                    </ListItemIcon>
                     <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}
@@ -54,11 +54,13 @@ const Login = props => {
                     </Menu>
                 </span>
             )}
-            <FormControlLabel
-                control={<Switch checked={auth} onChange={handleLoginChange} aria-label="LoginSwitch" />}
-                color="inherit"
-                label="(testing) Login"
-            />
+            {opened && (
+                <FormControlLabel
+                    control={<Switch checked={auth} onChange={handleLoginChange} aria-label="LoginSwitch" />}
+                    color="inherit"
+                    label="(testing) Login"
+                />
+            )}
         </span>
     );
 };

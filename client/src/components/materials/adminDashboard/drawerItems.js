@@ -1,8 +1,9 @@
 import React from 'react';
 import { ListSubheader, ListItemText, ListItemIcon, ListItem } from '@material-ui/core';
 import { Assignment, BarChart, People, Folder, AddBox } from '@material-ui/icons';
+import Login from '../Login';
 
-export const MainListItems = ({ pageState }) => (
+export const MainListItems = ({ pageState, opened, auth, anchorEl, handleLoginMenu, handleLoginChange }) => (
     <div>
         <ListItem button onClick={event => pageState(event, 'AddProducts')}>
             <ListItemIcon>
@@ -15,6 +16,15 @@ export const MainListItems = ({ pageState }) => (
                 <Folder />
             </ListItemIcon>
             <ListItemText primary="View Products" />
+        </ListItem>
+        <ListItem button>
+            <Login
+                opened={opened}
+                auth={auth}
+                anchorEl={anchorEl}
+                handleLoginMenu={handleLoginMenu}
+                handleLoginChange={handleLoginChange}
+            />
         </ListItem>
         {/* <ListItem button>
             <ListItemIcon>
