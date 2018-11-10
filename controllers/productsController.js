@@ -45,15 +45,13 @@ module.exports = {
         const { name, description, pictures, primary } = req.body;
         try {
             let data = {
-                Picture: {
-                    primary: primary,
-                    pictures: pictures,
-                },
+                primary: primary,
+                pictures: pictures,
                 pictureId: '',
                 name: name,
                 description: description,
             };
-            db.Listing.create(data, { include: [db.Picture], validate: false }).then(data => res.send(data));
+            db.Listing.create(data).then(data => res.send(data));
         } catch (err) {
             console.log(err);
             return res.send(false);
@@ -67,9 +65,11 @@ module.exports = {
             return res.send(err);
         }
     },
-    pictures: function(req, res) {
+    pictures: async function(req, res) {
         try {
-            db.Picture.findAll({}).then(data => res.send(data));
+            let pics = await db.Picture.findAll({});
+            console.log(pics);
+            res.send(pics);
         } catch (err) {
             console.log(err);
             return res.send(err);

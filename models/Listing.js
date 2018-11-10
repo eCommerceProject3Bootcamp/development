@@ -22,9 +22,24 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             defaultValue: 1,
         },
+        primary: {
+            type: DataTypes.TEXT('long'),
+            get: function() {
+                return JSON.parse(this.getDataValue('primary'));
+            },
+            set: function(value) {
+                this.setDataValue('primary', JSON.stringify(value));
+            },
+        },
+        pictures: {
+            type: DataTypes.TEXT('long'),
+            get: function() {
+                return JSON.parse(this.getDataValue('pictures'));
+            },
+            set: function(value) {
+                this.setDataValue('pictures', JSON.stringify(value));
+            },
+        },
     });
-    Listing.associate = function(models) {
-        Listing.belongsTo(models.Picture);
-    };
     return Listing;
 };
