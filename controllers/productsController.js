@@ -9,14 +9,14 @@ module.exports = {
             console.log(err);
         }
     },
-    findPics: async function(req, res) {
-        try {
-            let pics = await db.Picture.findById(req.params.id);
-            res.send(pics);
-        } catch (err) {
-            console.log(err);
-        }
-    },
+    // findPics: async function(req, res) {
+    //     try {
+    //         let pics = await db.Picture.findById(req.params.id);
+    //         res.send(pics);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // },
     rows: function(req, res) {
         try {
             db.Listing.findAll({
@@ -47,7 +47,6 @@ module.exports = {
             let data = {
                 primary: primary,
                 pictures: pictures,
-                pictureId: '',
                 name: name,
                 description: description,
             };
@@ -65,13 +64,13 @@ module.exports = {
             return res.send(err);
         }
     },
-    pictures: async function(req, res) {
-        try {
-            let pics = await db.Picture.findAll({});
-            res.send(pics);
-        } catch (err) {
-            console.log(err);
-            return res.send(err);
-        }
-    },
+    // pictures: async function(req, res) {
+    //     try {
+    //         let pics = await db.Picture.findAll({});
+    //         res.send(pics);
+    //     } catch (err) {
+    //         console.log(err);
+    //         return res.send(err);
+    //     }
+    // },
 };
