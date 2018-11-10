@@ -68,7 +68,6 @@ module.exports = {
     pictures: async function(req, res) {
         try {
             let pics = await db.Picture.findAll({});
-            console.log(pics);
             res.send(pics);
         } catch (err) {
             console.log(err);

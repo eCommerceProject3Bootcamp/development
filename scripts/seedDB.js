@@ -67,7 +67,7 @@ seed = async function() {
     });
     await db.Listing.destroy({
         where: {},
-        truncate: true,
+        // truncate: true,
     });
     console.log(`${count} records destroyed.\n\nInserting new listings, with pictures...`);
     for (let x of dbSeed) {

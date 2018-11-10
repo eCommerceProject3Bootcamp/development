@@ -1,27 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    let Listing = sequelize.define('Listing', {
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: [1],
-            },
-        },
-        description: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            validate: {
-                len: [1],
-            },
-        },
-        category: {
-            type: DataTypes.STRING,
-            defaultValue: 'Electronics',
-        },
-        qty: {
-            type: DataTypes.INTEGER,
-            defaultValue: 1,
-        },
+    let Picture = sequelize.define('Picture', {
         primary: {
             type: DataTypes.TEXT('long'),
             get: function() {
@@ -39,5 +17,10 @@ module.exports = function(sequelize, DataTypes) {
             set: function(value) {
                 this.setDataValue('pictures', JSON.stringify(value));
             },
-    return Listing;
+        },
+    });
+    Picture.associate = function(models) {
+        Picture.hasOne(models.Listing);
+    };
+    return Picture;
 };
