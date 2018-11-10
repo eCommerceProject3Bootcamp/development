@@ -8,8 +8,7 @@ import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBase
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
 import { MainListItems, secondaryListItems } from './drawerItems';
 import MakeListing from './AddProducts/MakeListing';
-import ViewProducts from './ViewProducts/ViewProducts';
-import Login from '../Login';
+import ViewProducts from './AddProducts/ViewProducts';
 
 class Dashboard extends React.Component {
     state = {
@@ -66,7 +65,7 @@ class Dashboard extends React.Component {
             <React.Fragment>
                 <CssBaseline />
                 <div className={classes.root}>
-                    <AppBar
+                    {/* <AppBar
                         position="absolute"
                         className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
                     >
@@ -82,14 +81,8 @@ class Dashboard extends React.Component {
                             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                                 Placeholder
                             </Typography>
-                            <Login
-                                auth={isAuthenticated}
-                                anchorEl={anchorEl}
-                                handleLoginMenu={this.handleLoginMenu}
-                                handleLoginChange={this.handleLoginChange}
-                            />
                         </Toolbar>
-                    </AppBar>
+                    </AppBar> */}
                     <Drawer
                         variant="permanent"
                         classes={{
@@ -99,17 +92,25 @@ class Dashboard extends React.Component {
                     >
                         <div className={classes.toolbarIcon}>
                             <IconButton onClick={this.handleDrawerToggle}>
-                                <ChevronLeftIcon />
+                                {this.state.open ? <ChevronLeftIcon /> : <MenuIcon />}
                             </IconButton>
                         </div>
                         <Divider />
-                        <List>{<MainListItems pageState={this.pageState} />}</List>
-                        {/* <Divider />
-                        <List>{secondaryListItems}</List> */}
+                        <List>
+                            <MainListItems
+                                pageState={this.pageState}
+                                opened={this.state.open}
+                                auth={isAuthenticated}
+                                anchorEl={anchorEl}
+                                handleLoginMenu={this.handleLoginMenu}
+                                handleLoginChange={this.handleLoginChange}
+                            />
+                        </List>
+                        <Divider />
+                        <List>{secondaryListItems}</List>
                     </Drawer>
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
-                        <Divider />
                         <div className={classes.tableContainer}>
                             {/* Seems like component // applets can go here */}
                             {this.handleDashBoardChange(this.state.currentPage)}

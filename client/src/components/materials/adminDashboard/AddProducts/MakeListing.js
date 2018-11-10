@@ -14,6 +14,7 @@ class MakeListing extends Component {
         pictures: [],
         description: '',
         name: '',
+        price: null,
         selectedThumbnail: 0,
         successfulUpload: null,
     };
@@ -23,6 +24,7 @@ class MakeListing extends Component {
             pictures: [],
             description: '',
             name: '',
+            price: null,
             selectedThumbnail: 0,
             successfulUpload: true,
         };
@@ -59,11 +61,20 @@ class MakeListing extends Component {
         });
     };
 
-    handleImageUpload = event => {
+    handleImageUpload = async event => {
         event.preventDefault();
         let unprocessedFiles = Array.from(event.target.files);
         let processedFiles = [];
-        unprocessedFiles = unprocessedFiles.filter(file => !this.state.pictures.includes(file));
+        unprocessedFiles = unprocessedFiles.filter(file => {
+            let ret = true;
+            for (let x of this.state.pictures) {
+                // Pretty sure going by name is NOT best practice. Hmm..
+                if (x.name === file.name) {
+                    ret = false;
+                }
+            }
+            return ret;
+        });
         for (let file of unprocessedFiles) {
             processedFiles.push(this._readUploadedFile(file));
         }
@@ -86,10 +97,18 @@ class MakeListing extends Component {
     formSubmit = async event => {
         event.preventDefault();
         try {
-            // In production, I'm not sure what this has to be changed to, if anything
-            const response = await axios.post('http://localhost:3001/api/products/upload', this.state);
-            console.log(response);
-            response.data && this.resetState();
+            // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
+            let { pictures, description, name, selectedThumbnail, price } = this.state;
+            let bodyData = {
+                primary: selectedThumbnail,
+                pictures: pictures,
+                description: description,
+                price: price,
+                name: name,
+            };
+            const response = await axios.post('http://localhost:3001/api/products/upload', bodyData);
+            // console.log(response);
+            response.status === 200 && this.resetState();
         } catch (err) {
             console.log(err);
         }
@@ -97,7 +116,8 @@ class MakeListing extends Component {
 
     render() {
         const { classes } = this.props;
-        const { description, name, pictures, selectedThumbnail } = this.state;
+        const { description, name, price, pictures, selectedThumbnail } = this.state;
+        let textValues = { name: name, price: price, description: description };
         return (
             <Grid container>
                 <Grid container justify="space-between" spacing={24} className={classes.topMargin}>
@@ -109,8 +129,8 @@ class MakeListing extends Component {
                             handleTextChange={this.handleTextChange}
                             formSubmit={this.formSubmit}
                             classes={classes}
-                            handleImageUpload={this.handleImageUpload}
-                            textValues={{ name: this.state.name, description: this.state.description }}
+                            handleImage={this.handleImageUpload}
+                            textValues={textValues}
                         />
                     </Grid>
                     <Grid item xs={4}>
@@ -119,14 +139,13 @@ class MakeListing extends Component {
                         </Typography>
                         <Listing
                             name={name}
-                            selectedThumbnail={selectedThumbnail}
                             description={description}
-                            pictures={pictures}
+                            picture={pictures[selectedThumbnail]}
                             classes={classes}
                         />
                     </Grid>
                 </Grid>
-                {pictures.length > 0 &&
+                {!pictures.length ||
                     pictures.map((image, index) => (
                         <Grid item key={`RNG_${Math.floor(Math.random() * 10000)}`}>
                             <ListItem
