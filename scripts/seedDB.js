@@ -72,15 +72,12 @@ seed = async function() {
     console.log(`${count} records destroyed.\n\nInserting new listings, with pictures...`);
     for (let x of dbSeed) {
         let data = {
-            Picture: {
-                primary: x.primary,
-                pictures: x.pictures,
-            },
-            pictureId: '',
             name: x.name,
             description: x.description,
+            primary: x.primary,
+            pictures: x.pictures,
         };
-        await db.Listing.create(data, { include: [db.Picture], validate: false });
+        await db.Listing.create(data);
     }
     console.log(`Done! ${dbSeed.length} records inserted`);
     process.exit();

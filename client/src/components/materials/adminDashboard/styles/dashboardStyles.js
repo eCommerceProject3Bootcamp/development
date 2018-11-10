@@ -41,6 +41,7 @@ const styles = theme => ({
         flexGrow: 1,
     },
     drawerPaper: {
+        backgroundColor: '#6ec6ff',
         position: 'relative',
         whiteSpace: 'nowrap',
         width: drawerWidth,

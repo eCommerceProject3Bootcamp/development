@@ -9,14 +9,14 @@ module.exports = {
             console.log(err);
         }
     },
-    findPics: async function(req, res) {
-        try {
-            let pics = await db.Picture.findById(req.params.id);
-            res.send(pics);
-        } catch (err) {
-            console.log(err);
-        }
-    },
+    // findPics: async function(req, res) {
+    //     try {
+    //         let pics = await db.Picture.findById(req.params.id);
+    //         res.send(pics);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // },
     rows: function(req, res) {
         try {
             db.Listing.findAll({
@@ -45,15 +45,12 @@ module.exports = {
         const { name, description, pictures, primary } = req.body;
         try {
             let data = {
-                Picture: {
-                    primary: primary,
-                    pictures: pictures,
-                },
-                pictureId: '',
+                primary: primary,
+                pictures: pictures,
                 name: name,
                 description: description,
             };
-            db.Listing.create(data, { include: [db.Picture], validate: false }).then(data => res.send(data));
+            db.Listing.create(data).then(data => res.send(data));
         } catch (err) {
             console.log(err);
             return res.send(false);
@@ -67,12 +64,13 @@ module.exports = {
             return res.send(err);
         }
     },
-    pictures: function(req, res) {
-        try {
-            db.Picture.findAll({}).then(data => res.send(data));
-        } catch (err) {
-            console.log(err);
-            return res.send(err);
-        }
-    },
+    // pictures: async function(req, res) {
+    //     try {
+    //         let pics = await db.Picture.findAll({});
+    //         res.send(pics);
+    //     } catch (err) {
+    //         console.log(err);
+    //         return res.send(err);
+    //     }
+    // },
 };

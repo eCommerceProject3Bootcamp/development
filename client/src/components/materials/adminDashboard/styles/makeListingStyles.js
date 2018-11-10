@@ -27,7 +27,8 @@ const styles = theme => ({
         zIndex: -1,
     },
     card: {
-        maxWidth: 345,
+        width: 345,
+        height: 345,
     },
     media: {
         height: 140,

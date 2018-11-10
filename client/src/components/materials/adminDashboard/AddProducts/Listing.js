@@ -15,11 +15,11 @@ const Listing = props => {
                     {compiler(description.replace(/\n/gm, '\n\n'))}
                 </Typography>
             </CardContent>
-            <CardActions>
+            {/* <CardActions>
                 <Button size="small" color="primary">
                     Learn More
                 </Button>
-            </CardActions>
+            </CardActions> */}
         </Card>
     );
 };
