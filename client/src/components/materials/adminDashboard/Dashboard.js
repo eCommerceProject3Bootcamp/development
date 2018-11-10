@@ -8,7 +8,7 @@ import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBase
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
 import { MainListItems, secondaryListItems } from './drawerItems';
 import MakeListing from './AddProducts/MakeListing';
-import ViewProducts from './ViewProducts/ViewProducts';
+import ViewProducts from './AddProducts/ViewProducts';
 import Login from '../Login';
 
 class Dashboard extends React.Component {
@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
         open: false,
         isAuthenticated: true,
         anchorEl: null,
-        currentPage: 'ViewProducts',
+        currentPage: 'AddProducts',
     };
 
     handleDashBoardChange = arg => {
@@ -68,15 +68,13 @@ class Dashboard extends React.Component {
                 <div className={classes.root}>
                     <AppBar
                         position="absolute"
-                        className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
-                    >
+                        className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
                         <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
                             <IconButton
                                 color="inherit"
                                 aria-label="Open drawer"
                                 onClick={this.handleDrawerToggle}
-                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}
-                            >
+                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}>
                                 <MenuIcon />
                             </IconButton>
                             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
@@ -95,8 +93,7 @@ class Dashboard extends React.Component {
                         classes={{
                             paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
                         }}
-                        open={this.state.open}
-                    >
+                        open={this.state.open}>
                         <div className={classes.toolbarIcon}>
                             <IconButton onClick={this.handleDrawerToggle}>
                                 <ChevronLeftIcon />

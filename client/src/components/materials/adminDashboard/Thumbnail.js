@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, CardMedia, Card } from '@material-ui/core';
+import { Paper, CardMedia } from '@material-ui/core';
 
 const Thumbnail = ({ image, classes }) => (
     <Paper className={classes.thumbnail}>
