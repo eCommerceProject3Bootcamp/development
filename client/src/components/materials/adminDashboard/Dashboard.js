@@ -9,7 +9,6 @@ import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/i
 import { MainListItems, secondaryListItems } from './drawerItems';
 import MakeListing from './AddProducts/MakeListing';
 import ViewProducts from './AddProducts/ViewProducts';
-import Login from '../Login';
 
 class Dashboard extends React.Component {
     state = {
@@ -66,7 +65,7 @@ class Dashboard extends React.Component {
             <React.Fragment>
                 <CssBaseline />
                 <div className={classes.root}>
-                    <AppBar
+                    {/* <AppBar
                         position="absolute"
                         className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
                     >
@@ -83,7 +82,7 @@ class Dashboard extends React.Component {
                                 Placeholder
                             </Typography>
                         </Toolbar>
-                    </AppBar>
+                    </AppBar> */}
                     <Drawer
                         variant="permanent"
                         classes={{
@@ -93,7 +92,7 @@ class Dashboard extends React.Component {
                     >
                         <div className={classes.toolbarIcon}>
                             <IconButton onClick={this.handleDrawerToggle}>
-                                <ChevronLeftIcon />
+                                {this.state.open ? <ChevronLeftIcon /> : <MenuIcon />}
                             </IconButton>
                         </div>
                         <Divider />
@@ -107,12 +106,11 @@ class Dashboard extends React.Component {
                                 handleLoginChange={this.handleLoginChange}
                             />
                         </List>
-                        {/* <Divider />
-                        <List>{secondaryListItems}</List> */}
+                        <Divider />
+                        <List>{secondaryListItems}</List>
                     </Drawer>
                     <main className={classes.content}>
                         <div className={classes.appBarSpacer} />
-                        <Divider />
                         <div className={classes.tableContainer}>
                             {/* Seems like component // applets can go here */}
                             {this.handleDashBoardChange(this.state.currentPage)}

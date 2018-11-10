@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListSubheader, ListItemText, ListItemIcon, ListItem } from '@material-ui/core';
-import { Assignment, BarChart, People, Folder, AddBox } from '@material-ui/icons';
+import { Assignment, Home, Folder, AddBox } from '@material-ui/icons';
 import Login from '../Login';
 
 export const MainListItems = ({ pageState, opened, auth, anchorEl, handleLoginMenu, handleLoginChange }) => (
@@ -43,14 +43,15 @@ export const MainListItems = ({ pageState, opened, auth, anchorEl, handleLoginMe
 
 export const secondaryListItems = (
     <div>
-        <ListSubheader inset="inset">Saved reports</ListSubheader>
-        <ListItem button>
+        {/* <ListSubheader inset="inset">Saved reports</ListSubheader> */}
+        {/* Here is how to redirect to home when that's ready */}
+        <ListItem button onClick={() => console.log(window.location.href)}>
             <ListItemIcon>
-                <Assignment />
+                <Home />
             </ListItemIcon>
-            <ListItemText primary="Current month" />
+            <ListItemText primary="Home Page" />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
             <ListItemIcon>
                 <Assignment />
             </ListItemIcon>
@@ -61,6 +62,6 @@ export const secondaryListItems = (
                 <Assignment />
             </ListItemIcon>
             <ListItemText primary="Year-end sale" />
-        </ListItem>
+        </ListItem> */}
     </div>
 );
