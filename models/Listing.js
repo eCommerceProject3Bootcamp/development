@@ -35,8 +35,5 @@ module.exports = function(sequelize, DataTypes) {
             // },
         },
     });
-    Listing.associate = function(models) {
-        Listing.belongsTo(models.Picture);
-    };
     return Listing;
 };

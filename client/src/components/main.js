@@ -49,7 +49,9 @@ const styles = theme => ({
         padding: `${theme.spacing.unit * 8}px 0`,
     },
     card: {
-        height: '100%',
+        height: 345,
+        width: 345,
+        overflowY: 'scroll',
         display: 'flex',
         flexDirection: 'column',
     },
@@ -70,20 +72,29 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 class Main extends Component {
     state = {
         products: [],
-        pictures: [],
     };
 
     componentDidMount() {
         // Here I will fill up the state with database stuff
-        axios.get('http://localhost:3001/api/products/').then(data => {
-            this.setState({
-                products: data.data,
-            });
-        });
-        axios.get('http://localhost:3001/api/products/pictures').then(pictures => {
-            this.setState({ pictures: pictures });
-        });
+        this.fillState();
     }
+
+    fillState = async () => {
+        let ids = await axios.get('http://localhost:3001/api/products/rows/id');
+        ids = ids.data.map(e => e.id);
+        let jfc = [];
+        for (let x of ids) {
+            jfc.push(axios.get(`http://localhost:3001/api/products/${x}`));
+        }
+        Promise.all(jfc).then(data => {
+            data = data.map(e => {
+                e = e.data;
+                e.pictures = JSON.parse(e.pictures);
+                return e;
+            });
+            this.setState({ products: data });
+        });
+    };
 
     render() {
         const { classes } = this.props;
@@ -124,18 +135,18 @@ class Main extends Component {
                     {/* End hero unit */}
                     <div className={classNames(classes.layout, classes.cardGrid)}>
                         <Grid container spacing={40}>
-                            {/* Put listing components here I.E
-                             return (
-                                        <Grid item key={id} sm={6} md={4} lg={3}>
-                                            <Listing
-                                                classes={classes}
-                                                name={name}
-                                                description={description}
-                                                picture={pictureData.pictures[pictureData.primary]}
-                                            />
-                                        </Grid>
-                                    )
-                            */}
+                            {/* Put listing components here I.E */}
+                            {products.length &&
+                                products.map(e => (
+                                    <Grid item>
+                                        <Listing
+                                            name={e.name}
+                                            description={e.description}
+                                            classes={classes}
+                                            picture={e.pictures[e.primary]}
+                                        />
+                                    </Grid>
+                                ))}
                         </Grid>
                     </div>
                 </main>
