@@ -39,5 +39,7 @@ module.exports = function(sequelize, DataTypes) {
             set: function(value) {
                 this.setDataValue('pictures', JSON.stringify(value));
             },
+        },
+    });
     return Listing;
 };
