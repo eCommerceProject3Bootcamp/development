@@ -10,7 +10,7 @@ const styles = theme => ({
     },
     textField: {
         padding: theme.spacing.unit,
-        width: 400,
+        width: '100%',
     },
     thumbnail: {
         // marginLeft: theme.spacing.unit,
@@ -27,11 +27,11 @@ const styles = theme => ({
         zIndex: -1,
     },
     card: {
-        width: 345,
-        height: 345,
+        width: '90vw',
+        height: '60vh',
     },
     media: {
-        height: 140,
+        height: '30vh',
     },
 });
 export default styles;

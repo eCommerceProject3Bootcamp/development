@@ -102,42 +102,46 @@ class ViewProducts extends Component {
         let current = grabbedProducts[selectedProduct] || this.sampleListing;
         let primary = current && current.pictures.pictures[current.pictures.primary];
         return (
-            <Grid container spacing={40}>
-                <Grid item>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
-                        <NativeSelect
-                            value={(current && current.listing.id) || ''}
-                            onChange={event => this.grabById(event.target.value)}
-                            input={<Input name="product" id="product-native-helper" />}>
-                            <option value="" />
-                            {!names.length ||
-                                names.map(name => (
-                                    <option key={name.id} value={name.id}>
-                                        {name.string}
-                                    </option>
-                                ))}
-                        </NativeSelect>
-                        {/* <FormHelperText>Select Listing</FormHelperText> */}
-                    </FormControl>
+            <div>
+                <Grid container spacing={40}>
+                    <Grid item>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
+                            <NativeSelect
+                                value={(current && current.listing.id) || ''}
+                                onChange={event => this.grabById(event.target.value)}
+                                input={<Input name="product" id="product-native-helper" />}>
+                                <option value="" />
+                                {!names.length ||
+                                    names.map(name => (
+                                        <option key={name.id} value={name.id}>
+                                            {name.string}
+                                        </option>
+                                    ))}
+                            </NativeSelect>
+                            {/* <FormHelperText>Select Listing</FormHelperText> */}
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <ListingInput
+                            textValues={current.listing}
+                            classes={classes}
+                            handleTextChange={event => this.handleTextChange(event)}
+                            formSubmit={this.formSubmit}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <ListingInput
-                        textValues={current.listing}
-                        classes={classes}
-                        handleTextChange={event => this.handleTextChange(event)}
-                        formSubmit={this.formSubmit}
-                    />
+                <Grid style={{ paddingTop: '5vh' }} container justify={'center'}>
+                    <Grid item>
+                        <Listing
+                            classes={classes}
+                            picture={primary}
+                            name={current.listing.name}
+                            description={current.listing.description}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <Listing
-                        classes={classes}
-                        picture={primary}
-                        name={current.listing.name}
-                        description={current.listing.description}
-                    />
-                </Grid>
-            </Grid>
+            </div>
         );
     }
 }
