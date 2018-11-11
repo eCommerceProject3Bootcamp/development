@@ -2,20 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 // import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
-// import Card from '@material-ui/core/Card';
-// import CardActions from '@material-ui/core/CardActions';
-// import CardContent from '@material-ui/core/CardContent';
-// import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Nav from '../components/Nav';
 import Listing from './materials/adminDashboard/AddProducts/Listing';
 import axios from 'axios';
+import { Typography, Grid, CssBaseline, Button, ClickAwayListener } from '@material-ui/core';
 
 const styles = theme => ({
     appBar: {
@@ -49,14 +42,27 @@ const styles = theme => ({
         padding: `${theme.spacing.unit * 8}px 0`,
     },
     card: {
-        height: 345,
-        width: 345,
-        overflowY: 'scroll',
+        height: 100,
+        width: 200,
+        overflowY: 'hidden',
         display: 'flex',
         flexDirection: 'column',
+        transition: theme.transitions.create(['width', 'height'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    cardOpen: {
+        height: 350,
+        width: 350,
+        overflowY: 'scroll',
+        transition: theme.transitions.create(['width', 'height'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
     media: {
-        paddingTop: '56.25%', // 16:9
+        paddingTop: '56.25%', // 16:9,
     },
     cardContent: {
         flexGrow: 1,
@@ -67,11 +73,10 @@ const styles = theme => ({
     },
 });
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
 class Main extends Component {
     state = {
         products: [],
+        activeKey: null,
     };
 
     componentDidMount() {
@@ -134,20 +139,32 @@ class Main extends Component {
                     </div>
                     {/* End hero unit */}
                     <div className={classNames(classes.layout, classes.cardGrid)}>
-                        <Grid container spacing={40}>
-                            {/* Put listing components here I.E */}
-                            {products.length &&
-                                products.map(e => (
-                                    <Grid item>
-                                        <Listing
-                                            name={e.name}
-                                            description={e.description}
-                                            classes={classes}
-                                            picture={e.pictures[e.primary]}
-                                        />
-                                    </Grid>
-                                ))}
-                        </Grid>
+                        <ClickAwayListener onClickAway={() => this.setState({ activeKey: null })}>
+                            <Grid container justify={'center'} spacing={40}>
+                                {/* Put listing components here I.E */}
+                                {products.length > 0 &&
+                                    products.map(e => {
+                                        return (
+                                            <Grid item key={e.id}>
+                                                <Listing
+                                                    onClick={() => this.setState({ activeKey: e.id })}
+                                                    name={e.name}
+                                                    description={e.description}
+                                                    classes={{
+                                                        card:
+                                                            this.state.activeKey === e.id
+                                                                ? classes.cardOpen
+                                                                : classes.card,
+                                                        media: classes.media,
+                                                    }}
+                                                    picture={e.pictures[e.primary]}
+                                                />
+                                                <Typography>{e.name}</Typography>
+                                            </Grid>
+                                        );
+                                    })}
+                            </Grid>
+                        </ClickAwayListener>
                     </div>
                 </main>
                 {/* Footer */}

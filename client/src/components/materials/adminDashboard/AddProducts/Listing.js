@@ -1,12 +1,16 @@
 import React from 'react';
 import { compiler } from 'markdown-to-jsx';
-import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import { Card, CardActions, CardActionArea, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 
 const Listing = props => {
-    const { classes, picture, name, description } = props;
+    const { classes, picture, name, description, onClick } = props;
     return (
         <Card className={classes.card}>
-            {picture && <CardMedia className={classes.media} image={picture.data} title={picture.name} />}
+            {picture && (
+                <CardActionArea onClick={onClick || null}>
+                    <CardMedia className={classes.media} image={picture.data} title={picture.name} />
+                </CardActionArea>
+            )}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {name}
@@ -15,11 +19,6 @@ const Listing = props => {
                     {compiler(description.replace(/\n/gm, '\n\n'))}
                 </Typography>
             </CardContent>
-            {/* <CardActions>
-                <Button size="small" color="primary">
-                    Learn More
-                </Button>
-            </CardActions> */}
         </Card>
     );
 };
