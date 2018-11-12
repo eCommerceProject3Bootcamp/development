@@ -152,7 +152,7 @@ class MakeListing extends Component {
                                 button
                                 selected={index === this.state.selectedThumbnail}
                                 onClick={event => this.handleListItemClick(event, index)}>
-                                <Thumbnail classes={classes} image={image.data} />
+                                <Thumbnail image={image.data} />
                             </ListItem>
                         </Grid>
                     ))}

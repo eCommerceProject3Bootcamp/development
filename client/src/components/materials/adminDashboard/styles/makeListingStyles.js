@@ -12,12 +12,6 @@ const styles = theme => ({
         padding: theme.spacing.unit,
         width: '100%',
     },
-    thumbnail: {
-        // marginLeft: theme.spacing.unit,
-        // marginRight: theme.spacing.unit,
-        width: 100,
-        height: 100,
-    },
     inputFile: {
         width: theme.spacing.unit * 0.1,
         height: theme.spacing.unit * 0.1,
@@ -42,6 +36,7 @@ const styles = theme => ({
     },
     pictureContainer: {
         boxShadow: theme.shadows[5],
+        borderRadius: theme.shape.borderRadius,
     },
 });
 export default styles;

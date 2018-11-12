@@ -24,15 +24,17 @@ export class ListingBig extends Component {
                             title={current && current.name}
                         />
                     </div>
-                    <Divider style={{ marginBottom: '2vh' }} />
+                    {/* <Divider /> */}
                     <Grid container>
                         {pictures.map((e, i) => (
                             <Grid item key={e.name}>
                                 <ListItem
                                     button
+                                    dense
+                                    disableGutters
                                     selected={this.state.selectedThumbnail === i}
                                     onClick={() => this.setState({ selectedThumbnail: i })}>
-                                    <Thumbnail classes={classes} image={e.data} />
+                                    <Thumbnail image={e.data} size={50} />
                                 </ListItem>
                             </Grid>
                         ))}
