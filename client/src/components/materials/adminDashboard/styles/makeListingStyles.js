@@ -29,9 +29,19 @@ const styles = theme => ({
     card: {
         width: 345,
         height: 345,
+        overflowY: 'scroll',
+        boxShadow: theme.shadows[2],
     },
     media: {
         height: 140,
+    },
+    mediaLarge: {
+        height: '45vh',
+        width: '45vh',
+        objectFit: 'scale-down',
+    },
+    pictureContainer: {
+        boxShadow: theme.shadows[5],
     },
 });
 export default styles;

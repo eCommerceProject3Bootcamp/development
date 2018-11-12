@@ -1,9 +1,0 @@
-diff a/client/src/components/materials/adminDashboard/MakeListing.js b/client/src/components/materials/adminDashboard/MakeListing.js	(rejected hunks)
-@@ -82,7 +82,6 @@
-         try {
-             // In production, I'm not sure what this has to be changed to, if anything
-             const response = await axios.post('http://localhost:3001/api/products/upload', this.state);
--            console.log(response);
-             if (response.data) {
-                 this.resetState();
-             }

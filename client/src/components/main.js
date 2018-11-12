@@ -6,7 +6,7 @@ import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import Nav from '../components/Nav';
-import Listing from './materials/adminDashboard/AddProducts/Listing';
+import ListingSmall from './materials/adminDashboard/AddProducts/ListingSmall';
 import axios from 'axios';
 import { Typography, Grid, CssBaseline, Button, ClickAwayListener } from '@material-ui/core';
 
@@ -53,8 +53,8 @@ const styles = theme => ({
         }),
     },
     cardOpen: {
-        height: 350,
-        width: 350,
+        height: 345,
+        width: 345,
         overflowY: 'scroll',
         transition: theme.transitions.create(['width', 'height'], {
             easing: theme.transitions.easing.sharp,
@@ -146,7 +146,7 @@ class Main extends Component {
                                     products.map(e => {
                                         return (
                                             <Grid item key={e.id}>
-                                                <Listing
+                                                <ListingSmall
                                                     onClick={() => this.setState({ activeKey: e.id })}
                                                     name={e.name}
                                                     description={e.description}

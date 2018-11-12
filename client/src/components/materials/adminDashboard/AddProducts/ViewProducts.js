@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Input } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Divider, Input } from '@material-ui/core';
 // import { Add } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import styles from '../styles/makeListingStyles';
 import ListingInput from './ListingInput';
-import Listing from './Listing';
+import ListingSmall from './ListingSmall';
+import ListingBig from '../../ListingBig';
 
 class ViewProducts extends Component {
     state = {
@@ -95,49 +96,60 @@ class ViewProducts extends Component {
         });
         // this.setState({ currentProduct: updatedProduct });
     };
-    sampleListing = { listing: { name: '', description: '', price: '' }, pictures: { pictures: [], primary: null } };
+    sampleListing = {
+        listing: { name: '', description: '', price: '', category: '', createdAt: '' },
+        pictures: { pictures: [{ data: '', name: '' }], primary: 0 },
+    };
     render() {
         let { classes } = this.props;
         let { names, selectedProduct, grabbedProducts } = this.state;
         let current = grabbedProducts[selectedProduct] || this.sampleListing;
         let primary = current && current.pictures.pictures[current.pictures.primary];
         return (
-            <Grid container spacing={40}>
-                <Grid item>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
-                        <NativeSelect
-                            value={(current && current.listing.id) || ''}
-                            onChange={event => this.grabById(event.target.value)}
-                            input={<Input name="product" id="product-native-helper" />}>
-                            <option value="" />
-                            {!names.length ||
-                                names.map(name => (
-                                    <option key={name.id} value={name.id}>
-                                        {name.string}
-                                    </option>
-                                ))}
-                        </NativeSelect>
-                        {/* <FormHelperText>Select Listing</FormHelperText> */}
-                    </FormControl>
+            <React.Fragment>
+                <Grid container spacing={40} style={{ paddingBottom: '4vh' }}>
+                    <Grid item>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
+                            <NativeSelect
+                                value={(current && current.listing.id) || ''}
+                                onChange={event => this.grabById(event.target.value)}
+                                input={<Input name="product" id="product-native-helper" />}>
+                                <option value="" />
+                                {!names.length ||
+                                    names.map(name => (
+                                        <option key={name.id} value={name.id}>
+                                            {name.string}
+                                        </option>
+                                    ))}
+                            </NativeSelect>
+                            {/* <FormHelperText>Select Listing</FormHelperText> */}
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <ListingInput
+                            textValues={current.listing}
+                            classes={classes}
+                            handleTextChange={event => this.handleTextChange(event)}
+                            formSubmit={this.formSubmit}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <ListingSmall
+                            classes={classes}
+                            picture={primary}
+                            name={current.listing.name}
+                            description={current.listing.description}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <ListingInput
-                        textValues={current.listing}
-                        classes={classes}
-                        handleTextChange={event => this.handleTextChange(event)}
-                        formSubmit={this.formSubmit}
-                    />
+                <Divider />
+                <Grid container style={{ paddingTop: '4vh' }}>
+                    <Grid item m={12}>
+                        <ListingBig product={current} classes={classes} />
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <Listing
-                        classes={classes}
-                        picture={primary}
-                        name={current.listing.name}
-                        description={current.listing.description}
-                    />
-                </Grid>
-            </Grid>
+            </React.Fragment>
         );
     }
 }

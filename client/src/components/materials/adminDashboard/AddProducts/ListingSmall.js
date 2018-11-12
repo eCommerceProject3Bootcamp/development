@@ -2,7 +2,7 @@ import React from 'react';
 import { compiler } from 'markdown-to-jsx';
 import { Card, CardActions, CardActionArea, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 
-const Listing = props => {
+const ListingSmall = props => {
     const { classes, picture, name, description, onClick } = props;
     return (
         <Card className={classes.card}>
@@ -23,4 +23,4 @@ const Listing = props => {
     );
 };
 
-export default Listing;
+export default ListingSmall;
