@@ -10,7 +10,7 @@ const styles = theme => ({
     },
     textField: {
         padding: theme.spacing.unit,
-        width: 400,
+        width: '100%',
     },
     thumbnail: {
         // marginLeft: theme.spacing.unit,
@@ -33,7 +33,7 @@ const styles = theme => ({
         boxShadow: theme.shadows[2],
     },
     media: {
-        height: 140,
+        height: '30vh',
     },
     mediaLarge: {
         height: '45vh',
