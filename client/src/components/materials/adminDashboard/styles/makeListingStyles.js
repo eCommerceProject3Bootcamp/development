@@ -21,13 +21,27 @@ const styles = theme => ({
         zIndex: -1,
     },
     card: {
-        width: 345,
+        height: 100,
+        width: 200,
+        overflowY: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: theme.transitions.create(['width', 'height'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    cardOpen: {
         height: 345,
+        width: 345,
         overflowY: 'scroll',
-        boxShadow: theme.shadows[2],
+        transition: theme.transitions.create(['width', 'height'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
     media: {
-        height: '30vh',
+        paddingTop: '56.25%', // 16:9,
     },
     mediaLarge: {
         height: '45vh',

@@ -76,6 +76,7 @@ seed = async function() {
             description: x.description,
             primary: x.primary,
             pictures: x.pictures,
+            price: Math.round(Math.random() * 10) + Math.random().toFixed(2),
         };
         await db.Listing.create(data);
     }

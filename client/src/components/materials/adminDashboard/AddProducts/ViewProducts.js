@@ -13,6 +13,7 @@ class ViewProducts extends Component {
         names: [],
         grabbedProducts: [],
         selectedProduct: null,
+        cardActive: false,
     };
     componentDidMount() {
         let { names } = this.state;
@@ -136,7 +137,11 @@ class ViewProducts extends Component {
                     </Grid>
                     <Grid item>
                         <ListingSmall
-                            classes={classes}
+                            onClick={() => this.setState({ cardActive: !this.state.cardActive })}
+                            classes={{
+                                media: classes.media,
+                                card: !this.state.cardActive ? classes.card : classes.cardOpen,
+                            }}
                             picture={primary}
                             name={current.listing.name}
                             description={current.listing.description}
@@ -145,7 +150,7 @@ class ViewProducts extends Component {
                 </Grid>
                 <Divider />
                 <Grid container style={{ paddingTop: '4vh' }}>
-                    <Grid item m={12}>
+                    <Grid item>
                         <ListingBig product={current} classes={classes} />
                     </Grid>
                 </Grid>

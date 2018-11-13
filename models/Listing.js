@@ -25,6 +25,9 @@ module.exports = function(sequelize, DataTypes) {
         primary: {
             type: DataTypes.INTEGER,
         },
+        price: {
+            type: DataTypes.DECIMAL(13, 2),
+        },
         pictures: {
             type: DataTypes.TEXT('long'),
             set: function(value) {
