@@ -7,8 +7,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import Nav from '../components/Nav';
 import ListingSmall from './materials/adminDashboard/AddProducts/ListingSmall';
+import ListingBig from './materials/ListingBig';
 import axios from 'axios';
-import { Typography, Grid, CssBaseline, Button, ClickAwayListener } from '@material-ui/core';
+import { Typography, Grid, CssBaseline, Button, ClickAwayListener, Modal } from '@material-ui/core';
 
 const styles = theme => ({
     appBar: {
@@ -64,6 +65,11 @@ const styles = theme => ({
     media: {
         paddingTop: '56.25%', // 16:9,
     },
+    mediaLarge: {
+        height: '45vh',
+        width: '45vh',
+        objectFit: 'scale-down',
+    },
     cardContent: {
         flexGrow: 1,
     },
@@ -76,7 +82,7 @@ const styles = theme => ({
 class Main extends Component {
     state = {
         products: [],
-        activeKey: null,
+        open: null,
     };
 
     componentDidMount() {
@@ -103,7 +109,7 @@ class Main extends Component {
 
     render() {
         const { classes } = this.props;
-        const { products } = this.state;
+        const { products, open } = this.state;
 
         return (
             <React.Fragment>
@@ -139,7 +145,7 @@ class Main extends Component {
                     </div>
                     {/* End hero unit */}
                     <div className={classNames(classes.layout, classes.cardGrid)}>
-                        <ClickAwayListener onClickAway={() => this.setState({ activeKey: null })}>
+                        <ClickAwayListener onClickAway={() => this.setState({ open: null })}>
                             <Grid container justify={'center'} spacing={40}>
                                 {/* Put listing components here I.E */}
                                 {products.length > 0 &&
@@ -147,18 +153,26 @@ class Main extends Component {
                                         return (
                                             <Grid item key={e.id}>
                                                 <ListingSmall
-                                                    onClick={() => this.setState({ activeKey: e.id })}
+                                                    onClick={() => this.setState({ open: e.id })}
                                                     name={e.name}
                                                     description={e.description}
                                                     classes={{
-                                                        card:
-                                                            this.state.activeKey === e.id
-                                                                ? classes.cardOpen
-                                                                : classes.card,
+                                                        card: classes.card,
                                                         media: classes.media,
                                                     }}
                                                     picture={e.pictures[e.primary]}
                                                 />
+                                                <Modal
+                                                    style={{
+                                                        width: '90%',
+                                                        height: '90%',
+                                                    }}
+                                                    aria-labelledby={e.name}
+                                                    aria-describedby={`${e.description.slice(0, 30)}...`}
+                                                    open={open === e.id}
+                                                    onClose={() => this.setState({ open: null })}>
+                                                    <ListingBig product={e} classes={classes} />
+                                                </Modal>
                                                 <Typography>{e.name}</Typography>
                                             </Grid>
                                         );

@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import Thumbnail from './adminDashboard/Thumbnail';
 import { compiler } from 'markdown-to-jsx';
+// import classes from './adminDashboard/styles/makeListingStyles';
 
 export class ListingBig extends Component {
     state = {
@@ -30,49 +31,48 @@ export class ListingBig extends Component {
 
     render() {
         const { selectedThumbnail, quantity } = this.state;
-        const { id, category, createdAt, description, name, price, qty } = this.props.product.listing;
-        const { pictures } = this.props.product.pictures;
-        const { classes } = this.props;
-        const current = pictures[selectedThumbnail];
+        const { product, classes } = this.props;
+        const { id, category, createdAt, description, name, price, qty, pictures } = product;
+        const currentPic = pictures[selectedThumbnail];
         return (
-            <Grid container spacing={40}>
-                {/* PICTURE SECTION START */}
-                <Grid item m={4}>
-                    <div style={{ marginBottom: '2vh' }} className={classes.pictureContainer}>
-                        <CardMedia
-                            component="img"
-                            alt={current && current.name.replace(/(\.jpg)/, '')}
-                            className={classes.mediaLarge}
-                            image={current && current.data}
-                            title={current && current.name}
-                        />
-                    </div>
-                    {/* <Divider /> */}
-                    <Grid container>
-                        {pictures.map((e, i) => (
-                            <Grid item key={e.name}>
-                                <ListItem
-                                    button
-                                    dense
-                                    disableGutters
-                                    selected={selectedThumbnail === i}
-                                    onClick={() => this.setState({ selectedThumbnail: i })}>
-                                    <Thumbnail image={e.data} size={50} />
-                                </ListItem>
-                            </Grid>
-                        ))}
+            <Card raised>
+                <Grid container spacing={40} style={{ padding: '3vh' }}>
+                    {/* PICTURE SECTION START */}
+                    <Grid item m={4}>
+                        <div style={{ marginBottom: '2vh' }} className={classes.pictureContainer}>
+                            <CardMedia
+                                component="img"
+                                alt={currentPic && currentPic.name}
+                                className={classes.mediaLarge}
+                                image={currentPic && currentPic.data}
+                                title={currentPic && currentPic.name}
+                            />
+                        </div>
+                        {/* <Divider /> */}
+                        <Grid container>
+                            {pictures.map((e, i) => (
+                                <Grid item key={e.name}>
+                                    <ListItem
+                                        button
+                                        dense
+                                        disableGutters
+                                        selected={selectedThumbnail === i}
+                                        onClick={() => this.setState({ selectedThumbnail: i })}>
+                                        <Thumbnail image={e.data} size={50} />
+                                    </ListItem>
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
-                </Grid>
-                {/* PICTURE SECTION END */}
+                    {/* PICTURE SECTION END */}
 
-                {/* TEXT BODY SECTION START */}
-                <Grid item m={8}>
-                    <Typography variant={'h5'}>{name}</Typography>
-                    <Typography paragraph>
-                        Additional subnotes about product can go here, possibly something like on sale or etc
-                    </Typography>
-                    <Divider style={{ margin: '0 0 1vh 0' }} />
-                    <Typography variant={'body2'}>
+                    {/* TEXT BODY SECTION START */}
+                    <Grid item m={8}>
+                        <Typography variant={'h5'}>{name}</Typography>
+                        <Typography>
+                            Additional subnotes about product can go here, possibly something like on sale or etc
+                        </Typography>
+                        <Divider style={{ margin: '0 0 1vh 0' }} />
                         <Grid container spacing={40}>
                             <Grid item>
                                 <TextField
@@ -94,33 +94,31 @@ export class ListingBig extends Component {
                             </Grid>
                             <Grid item>{qty > 0 ? `In stock: ${qty}` : `Out of Stock`}</Grid>
                             <Grid item xs={12}>
-                                <Card raised style={{ background: '#eeeeee' }}>
+                                <Card style={{ background: '#eeeeee' }}>
                                     <CardContent>
                                         {/* Something here about a sale, possibly. Otherwise */}
                                         <Typography variant={'body2'}>Price: {price}</Typography>
                                     </CardContent>
                                     <CardActions>
-                                        <Button
-                                            onClick={this.buyItNow(this.props.product.listing, quantity)}
-                                            size="small">
+                                        <Button onClick={this.buyItNow(this.props.product, quantity)} size="small">
                                             Buy It Now
                                         </Button>
-                                        <Button
-                                            onClick={this.addToCart(this.props.product.listing, quantity)}
-                                            size="small">
+                                        <Button onClick={this.addToCart(this.props.product, quantity)} size="small">
                                             Add to cart
                                         </Button>
                                     </CardActions>
                                 </Card>
                             </Grid>
                             <Grid item xs={12}>
-                                {compiler(description.replace(/\n/gm, '\n\n'))}
+                                <Typography component={'div'}>
+                                    {compiler(description.replace(/\n/gm, '\n\n'))}
+                                </Typography>
                             </Grid>
                         </Grid>
-                    </Typography>
+                    </Grid>
+                    {/* TEXT BODY SECTION END */}
                 </Grid>
-                {/* TEXT BODY SECTION END */}
-            </Grid>
+            </Card>
         );
     }
 }

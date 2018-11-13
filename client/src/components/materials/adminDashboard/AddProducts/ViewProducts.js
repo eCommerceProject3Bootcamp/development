@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Divider, Input } from '@material-ui/core';
+import { Grid, FormControl, Card, InputLabel, NativeSelect, FormHelperText, Divider, Input } from '@material-ui/core';
 // import { Add } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
@@ -16,15 +16,17 @@ class ViewProducts extends Component {
         cardActive: false,
     };
     componentDidMount() {
-        let { names } = this.state;
         axios.get('http://localhost:3001/api/products/rows/id,name').then(data => {
-            this.setState(prevState => {
-                return {
-                    names: data.data.map(e => {
-                        return { string: `${e.id}: ${e.name}`, id: e.id };
-                    }),
-                };
-            });
+            this.setState(
+                prevState => {
+                    return {
+                        names: data.data.map(e => {
+                            return { string: `${e.id}: ${e.name}`, id: e.id };
+                        }),
+                    };
+                },
+                () => this.grabById(this.state.names[0].id)
+            );
         });
     }
 
@@ -35,7 +37,7 @@ class ViewProducts extends Component {
         try {
             // In production, I'm not sure what this "localhost" bit has to be changed to, if anything
             let promiseArr = this.state.grabbedProducts.map(e =>
-                axios.put(`http://localhost:3001/api/products/update/${e.listing.id}`, e)
+                axios.put(`http://localhost:3001/api/products/update/${e.id}`, e)
             );
             let response = await Promise.all(promiseArr);
             console.log(response);
@@ -54,21 +56,17 @@ class ViewProducts extends Component {
         const { grabbedProducts } = this.state;
         for (let x in grabbedProducts) {
             let y = grabbedProducts[x];
-            if (parseInt(id) === y.listing.id) {
+            if (parseInt(id) === y.id) {
                 this.setState({ selectedProduct: parseInt(x) });
                 return;
             }
         }
         // If NOT, then vvvv
         const data = await axios.get(`http://localhost:3001/api/products/${id}`);
-        const { pictures, primary, ...rest } = data.data;
-        const fullProduct = {
-            listing: rest,
-            pictures: { primary: primary, pictures: JSON.parse(pictures) },
-        };
+        data.data.pictures = JSON.parse(data.data.pictures);
         this.setState(prevState => {
             return {
-                grabbedProducts: [...prevState.grabbedProducts, fullProduct],
+                grabbedProducts: [...prevState.grabbedProducts, data.data],
                 selectedProduct: grabbedProducts.length,
             };
         });
@@ -77,12 +75,11 @@ class ViewProducts extends Component {
     handleTextChange = name => event => {
         let { selectedProduct, grabbedProducts } = this.state;
         let current = grabbedProducts[selectedProduct];
-        let updatedProduct = current.listing;
+        let updatedProduct = current;
         updatedProduct[name] = event.target.value;
         this.setState(prevState => {
             let retPro = {
-                listing: updatedProduct,
-                pictures: current.pictures,
+                updatedProduct,
             };
 
             return {
@@ -98,14 +95,19 @@ class ViewProducts extends Component {
         // this.setState({ currentProduct: updatedProduct });
     };
     sampleListing = {
-        listing: { name: '', description: '', price: '', category: '', createdAt: '' },
-        pictures: { pictures: [{ data: '', name: '' }], primary: 0 },
+        name: '',
+        description: '',
+        price: '',
+        category: '',
+        createdAt: '',
+        qty: 0,
+        pictures: [{ name: '', data: '' }],
     };
     render() {
         let { classes } = this.props;
         let { names, selectedProduct, grabbedProducts } = this.state;
         let current = grabbedProducts[selectedProduct] || this.sampleListing;
-        let primary = current && current.pictures.pictures[current.pictures.primary];
+        let primary = current && current.pictures[current.primary];
         return (
             <React.Fragment>
                 <Grid container spacing={40} style={{ paddingBottom: '4vh' }}>
@@ -113,7 +115,7 @@ class ViewProducts extends Component {
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
                             <NativeSelect
-                                value={(current && current.listing.id) || ''}
+                                value={(current && current.id) || ''}
                                 onChange={event => this.grabById(event.target.value)}
                                 input={<Input name="product" id="product-native-helper" />}>
                                 <option value="" />
@@ -129,7 +131,7 @@ class ViewProducts extends Component {
                     </Grid>
                     <Grid item>
                         <ListingInput
-                            textValues={current.listing}
+                            textValues={current}
                             classes={classes}
                             handleTextChange={event => this.handleTextChange(event)}
                             formSubmit={this.formSubmit}
@@ -143,8 +145,8 @@ class ViewProducts extends Component {
                                 card: !this.state.cardActive ? classes.card : classes.cardOpen,
                             }}
                             picture={primary}
-                            name={current.listing.name}
-                            description={current.listing.description}
+                            name={current.name}
+                            description={current.description}
                         />
                     </Grid>
                 </Grid>
