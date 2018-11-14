@@ -58,6 +58,7 @@ const styles = theme => ({
     },
     gridListTile: {
         borderRadius: theme.shape.borderRadius,
+        width: theme.spacing.unit * 7,
     },
     'gridListTile:hover': {
         boxShadow: theme.shadows[5],

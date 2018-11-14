@@ -38,7 +38,7 @@ export class ListingBig extends Component {
         const currentPic = pictures[selectedThumbnail];
         return (
             <Card raised>
-                <Grid container spacing={20} style={{ padding: '3vh' }}>
+                <Grid container spacing={24} style={{ padding: '3vh' }}>
                     {/* PICTURE SECTION START */}
                     <Grid item s={4}>
                         <div style={{ marginBottom: '2vh' }} className={classes.pictureContainer}>
@@ -51,12 +51,10 @@ export class ListingBig extends Component {
                             />
                         </div>
                         {/* <Divider /> */}
-                        <GridList cols={pictures.length}>
+                        <GridList cellHeight={50} cols={pictures.length}>
                             {pictures.map((e, i) => (
-                                <GridListTile
-                                    className={classes.gridListTile}
-                                    onClick={() => this.setState({ selectedThumbnail: i })}>
-                                    <Thumbnail image={e.data} size={50} />
+                                <GridListTile onClick={() => this.setState({ selectedThumbnail: i })}>
+                                    <img className={classes.gridListTile} alt={e.name} src={e.data} />
                                 </GridListTile>
                             ))}
                         </GridList>
