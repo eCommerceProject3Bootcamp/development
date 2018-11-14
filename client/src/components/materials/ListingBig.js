@@ -33,7 +33,7 @@ export class ListingBig extends Component {
 
     render() {
         const { selectedThumbnail, quantitySelected } = this.state;
-        const { product, classes } = this.props;
+        const { product, classes, addCart } = this.props;
         const { id, category, createdAt, description, name, price, qty, pictures } = product;
         const currentPic = pictures[selectedThumbnail];
         return (
@@ -53,7 +53,7 @@ export class ListingBig extends Component {
                         {/* <Divider /> */}
                         <GridList cellHeight={50} cols={pictures.length}>
                             {pictures.map((e, i) => (
-                                <GridListTile onClick={() => this.setState({ selectedThumbnail: i })}>
+                                <GridListTile key={i} onClick={() => this.setState({ selectedThumbnail: i })}>
                                     <img className={classes.gridListTile} alt={e.name} src={e.data} />
                                 </GridListTile>
                             ))}
@@ -95,13 +95,15 @@ export class ListingBig extends Component {
                                             <Typography variant={'body2'}>Price: {price}</Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Button
+                                            {/* <Button
                                                 onClick={this.buyItNow(this.props.product, quantitySelected)}
                                                 size="small">
                                                 Buy It Now
-                                            </Button>
+                                            </Button> */}
                                             <Button
-                                                onClick={this.addToCart(this.props.product, quantitySelected)}
+                                                onClick={() =>
+                                                    addCart(id, quantitySelected <= qty ? quantitySelected : qty)
+                                                }
                                                 size="small">
                                                 Add to cart
                                             </Button>
