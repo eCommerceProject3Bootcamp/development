@@ -52,5 +52,15 @@ const styles = theme => ({
         boxShadow: theme.shadows[5],
         borderRadius: theme.shape.borderRadius,
     },
+    divider: {
+        marginBottom: theme.spacing.unit,
+        marginTop: theme.spacing.unit,
+    },
+    gridListTile: {
+        borderRadius: theme.shape.borderRadius,
+    },
+    'gridListTile:hover': {
+        boxShadow: theme.shadows[5],
+    },
 });
 export default styles;
