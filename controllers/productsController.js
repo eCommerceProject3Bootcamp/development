@@ -45,7 +45,6 @@ module.exports = {
     },
     upload: function(req, res) {
         const { name, description, pictures, primary, price } = req.body;
-        fs.appendFileSync(path.join(__dirname, '../scripts/pictures.json'), JSON.stringify(req.body) + ',');
         try {
             let data = {
                 primary: primary,
