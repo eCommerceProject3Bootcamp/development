@@ -1,4 +1,6 @@
 const db = require('../models');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
     findOne: async function(req, res) {
@@ -42,13 +44,14 @@ module.exports = {
         }
     },
     upload: function(req, res) {
-        const { name, description, pictures, primary } = req.body;
+        const { name, description, pictures, primary, price } = req.body;
         try {
             let data = {
                 primary: primary,
                 pictures: pictures,
                 name: name,
                 description: description,
+                price: price,
             };
             db.Listing.create(data).then(data => res.send(data));
         } catch (err) {

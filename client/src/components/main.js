@@ -83,6 +83,7 @@ class Main extends Component {
     state = {
         products: [],
         open: null,
+        cart: {},
     };
 
     componentDidMount() {
@@ -104,6 +105,20 @@ class Main extends Component {
                 return e;
             });
             this.setState({ products: data });
+        });
+    };
+
+    addCart = (item, quantity) => {
+        quantity = parseInt(quantity);
+        this.setState(prevState => {
+            if (Object.keys(prevState.cart).includes(`${item}`)) {
+                prevState.cart[item] += quantity;
+            } else {
+                let obj = {};
+                obj[item] = quantity;
+                Object.assign(prevState.cart, obj);
+            }
+            return prevState;
         });
     };
 
@@ -145,40 +160,39 @@ class Main extends Component {
                     </div>
                     {/* End hero unit */}
                     <div className={classNames(classes.layout, classes.cardGrid)}>
-                        <ClickAwayListener onClickAway={() => this.setState({ open: null })}>
-                            <Grid container justify={'center'} spacing={40}>
-                                {/* Put listing components here I.E */}
-                                {products.length > 0 &&
-                                    products.map(e => {
-                                        return (
-                                            <Grid item key={e.id}>
-                                                <ListingSmall
-                                                    onClick={() => this.setState({ open: e.id })}
-                                                    name={e.name}
-                                                    description={e.description}
-                                                    classes={{
-                                                        card: classes.card,
-                                                        media: classes.media,
-                                                    }}
-                                                    picture={e.pictures[e.primary]}
-                                                />
-                                                <Modal
-                                                    style={{
-                                                        width: '90%',
-                                                        height: '90%',
-                                                    }}
-                                                    aria-labelledby={e.name}
-                                                    aria-describedby={`${e.description.slice(0, 30)}...`}
-                                                    open={open === e.id}
-                                                    onClose={() => this.setState({ open: null })}>
-                                                    <ListingBig product={e} classes={classes} />
-                                                </Modal>
-                                                <Typography>{e.name}</Typography>
-                                            </Grid>
-                                        );
-                                    })}
-                            </Grid>
-                        </ClickAwayListener>
+                        <Grid container justify={'center'} spacing={40}>
+                            {/* Put listing components here I.E */}
+                            {products.length > 0 &&
+                                products.map(e => {
+                                    return (
+                                        <Grid item key={e.id}>
+                                            <ListingSmall
+                                                onClick={() => this.setState({ open: e.id })}
+                                                name={e.name}
+                                                description={e.description}
+                                                classes={{
+                                                    card: classes.card,
+                                                    media: classes.media,
+                                                }}
+                                                picture={e.pictures[e.primary]}
+                                            />
+                                            <Modal
+                                                style={{
+                                                    overflowY: 'scroll',
+                                                    width: '90%',
+                                                    height: '90%',
+                                                }}
+                                                aria-labelledby={e.name}
+                                                aria-describedby={`${e.description.slice(0, 30)}...`}
+                                                open={open === e.id}
+                                                onClose={() => this.setState({ open: null })}>
+                                                <ListingBig addCart={this.addCart} product={e} classes={classes} />
+                                            </Modal>
+                                            <Typography>{e.name}</Typography>
+                                        </Grid>
+                                    );
+                                })}
+                        </Grid>
                     </div>
                 </main>
                 {/* Footer */}

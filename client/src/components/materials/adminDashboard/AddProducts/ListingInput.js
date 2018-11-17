@@ -70,7 +70,7 @@ class ListingInput extends Component {
                     </Grid>
                 )}
                 <Button variant="contained" type="submit" className={classes.button}>
-                    Save Changes
+                    Submit
                 </Button>
             </form>
         );

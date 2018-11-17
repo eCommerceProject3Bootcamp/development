@@ -15,12 +15,12 @@ class Dashboard extends React.Component {
         open: false,
         isAuthenticated: true,
         anchorEl: null,
-        currentPage: 'ViewProducts',
+        currentPage: 'MakeListing',
     };
 
     handleDashBoardChange = arg => {
         const obj = {
-            AddProducts: <MakeListing />,
+            MakeListing: <MakeListing />,
             ViewProducts: <ViewProducts />,
         };
         if (!obj[arg]) {
