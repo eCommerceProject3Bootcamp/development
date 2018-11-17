@@ -104,7 +104,10 @@ class Main extends Component {
         products: [],
         open: null,
         cart: {},
+<<<<<<< HEAD
         cartOpen: false,
+=======
+>>>>>>> df5d77f560b191dbca291e41a35275e0ebe7fd1a
     };
 
     componentWillMount() {
@@ -142,9 +145,12 @@ class Main extends Component {
         });
     };
 
+<<<<<<< HEAD
     openShoppingCart = () => this.setState({ cartOpen: true });
     cartClose = () => this.setState({ cartOpen: false });
 
+=======
+>>>>>>> df5d77f560b191dbca291e41a35275e0ebe7fd1a
     render() {
         const { classes } = this.props;
         const { products, open, cartOpen, cart } = this.state;
@@ -178,6 +184,11 @@ class Main extends Component {
                                         <Grid item key={e.id}>
                                             <ListingSmall
                                                 onClick={() => this.setState({ open: e.id })}
+<<<<<<< HEAD
+=======
+                                                name={e.name}
+                                                description={e.description}
+>>>>>>> df5d77f560b191dbca291e41a35275e0ebe7fd1a
                                                 classes={{
                                                     card: classes.card,
                                                     media: classes.media,
@@ -196,7 +207,11 @@ class Main extends Component {
                                                 onClose={() => this.setState({ open: null })}>
                                                 <ListingBig addCart={this.addCart} product={e} classes={classes} />
                                             </Modal>
+<<<<<<< HEAD
                                             <Typography>{e.name.slice(0, 30) + '...'}</Typography>
+=======
+                                            <Typography>{e.name}</Typography>
+>>>>>>> df5d77f560b191dbca291e41a35275e0ebe7fd1a
                                         </Grid>
                                     );
                                 })}
