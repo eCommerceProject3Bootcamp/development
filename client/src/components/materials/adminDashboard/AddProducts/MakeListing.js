@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from '../styles/makeListingStyles';
 import axios from 'axios';
 import ListingInput from './ListingInput';
-import ListingSmall from './ListingSmall';
+import ListingBig from '../../ListingBig';
 import Thumbnail from '../Thumbnail';
 
 class MakeListing extends Component {
@@ -137,12 +137,7 @@ class MakeListing extends Component {
                         <Typography variant="h3" gutterBottom>
                             Preview
                         </Typography>
-                        <ListingSmall
-                            name={name}
-                            description={description}
-                            picture={pictures[selectedThumbnail]}
-                            classes={classes}
-                        />
+                        <ListingBig product={this.state} classes={classes} />
                     </Grid>
                 </Grid>
                 {!pictures.length ||

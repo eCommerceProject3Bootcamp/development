@@ -12,23 +12,12 @@ import {
     CardActions,
     Button,
 } from '@material-ui/core';
-// import classNames from 'classnames';
-import Thumbnail from './adminDashboard/Thumbnail';
 import { compiler } from 'markdown-to-jsx';
-// import classes from './adminDashboard/styles/makeListingStyles';
 
 export class ListingBig extends Component {
     state = {
         selectedThumbnail: 0,
         quantitySelected: 0,
-    };
-
-    addToCart = (listing, quantitySelected) => {
-        // pass the whole (listing, quantitySelected) in here from button will handle API stuff later
-    };
-
-    buyItNow = (listing, quantitySelected) => {
-        // pass the whole (listing, quantitySelected) in here from button will handle API stuff later
     };
 
     render() {

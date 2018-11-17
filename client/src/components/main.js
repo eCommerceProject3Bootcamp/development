@@ -9,7 +9,20 @@ import Nav from '../components/Nav';
 import ListingSmall from './materials/adminDashboard/AddProducts/ListingSmall';
 import ListingBig from './materials/ListingBig';
 import axios from 'axios';
-import { Typography, Grid, CssBaseline, Button, ClickAwayListener, Modal } from '@material-ui/core';
+import {
+    Typography,
+    Grid,
+    CssBaseline,
+    Button,
+    Card,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemSecondaryAction,
+    IconButton,
+    Modal,
+} from '@material-ui/core';
+import ShoppingCart from './ShoppingCart';
 
 const styles = theme => ({
     appBar: {
@@ -77,6 +90,13 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing.unit * 6,
     },
+    gridListTile: {
+        borderRadius: theme.shape.borderRadius,
+        width: theme.spacing.unit * 7,
+    },
+    'gridListTile:hover': {
+        boxShadow: theme.shadows[5],
+    },
 });
 
 class Main extends Component {
@@ -84,10 +104,10 @@ class Main extends Component {
         products: [],
         open: null,
         cart: {},
+        cartOpen: false,
     };
 
-    componentDidMount() {
-        // Here I will fill up the state with database stuff
+    componentWillMount() {
         this.fillState();
     }
 
@@ -122,14 +142,18 @@ class Main extends Component {
         });
     };
 
+    openShoppingCart = () => this.setState({ cartOpen: true });
+    cartClose = () => this.setState({ cartOpen: false });
+
     render() {
         const { classes } = this.props;
-        const { products, open } = this.state;
+        const { products, open, cartOpen, cart } = this.state;
 
         return (
             <React.Fragment>
                 <CssBaseline />
-                <Nav />
+                <ShoppingCart products={products} cart={cart} cartOpen={cartOpen} cartClose={this.cartClose} />
+                <Nav openShoppingCart={this.openShoppingCart} />
                 <main>
                     {/* Hero unit */}
                     <div className={classes.heroUnit}>
@@ -142,20 +166,6 @@ class Main extends Component {
                                 etc.Make it short and sweet, but not too short so folks don't simply skip over it
                                 entirely.
                             </Typography>
-                            <div className={classes.heroButtons}>
-                                <Grid container spacing={16} justify="center">
-                                    <Grid item>
-                                        <Button variant="contained" color="primary">
-                                            Main call to action
-                                        </Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button variant="outlined" color="primary">
-                                            Secondary action
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </div>
                         </div>
                     </div>
                     {/* End hero unit */}
@@ -168,8 +178,6 @@ class Main extends Component {
                                         <Grid item key={e.id}>
                                             <ListingSmall
                                                 onClick={() => this.setState({ open: e.id })}
-                                                name={e.name}
-                                                description={e.description}
                                                 classes={{
                                                     card: classes.card,
                                                     media: classes.media,
@@ -188,7 +196,7 @@ class Main extends Component {
                                                 onClose={() => this.setState({ open: null })}>
                                                 <ListingBig addCart={this.addCart} product={e} classes={classes} />
                                             </Modal>
-                                            <Typography>{e.name}</Typography>
+                                            <Typography>{e.name.slice(0, 30) + '...'}</Typography>
                                         </Grid>
                                     );
                                 })}
