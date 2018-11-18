@@ -12,6 +12,7 @@
         "seed": "node scripts/seedDB.js",
         "build": "cd client && npm run build",
         "heroku-postbuild": "npm run build",
+        "test": "cd client && yarn test",
         "cypress": "cd client && yarn cypress open"
     },
     "author": "",
