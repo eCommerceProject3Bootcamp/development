@@ -1,11 +1,11 @@
 import React from 'react';
-import { ListSubheader, ListItemText, ListItemIcon, ListItem } from '@material-ui/core';
-import { Assignment, Home, Folder, AddBox } from '@material-ui/icons';
+import { ListItemText, ListItemIcon, ListItem } from '@material-ui/core';
+import { Home, Folder, AddBox } from '@material-ui/icons';
 import Login from '../Login';
 
 export const MainListItems = ({ pageState, opened, auth, anchorEl, handleLoginMenu, handleLoginChange }) => (
     <div>
-        <ListItem button onClick={event => pageState(event, 'AddProducts')}>
+        <ListItem button onClick={event => pageState(event, 'MakeListing')}>
             <ListItemIcon>
                 <AddBox />
             </ListItemIcon>

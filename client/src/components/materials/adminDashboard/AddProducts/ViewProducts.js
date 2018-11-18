@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, FormControl, Card, InputLabel, NativeSelect, FormHelperText, Divider, Input } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, NativeSelect, Divider, Input } from '@material-ui/core';
 // import { Add } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import styles from '../styles/makeListingStyles';
+import styles from '../../../styles/mainStyles';
 import ListingInput from './ListingInput';
-import ListingSmall from './ListingSmall';
 import ListingBig from '../../ListingBig';
 
 class ViewProducts extends Component {
@@ -107,11 +106,10 @@ class ViewProducts extends Component {
         let { classes } = this.props;
         let { names, selectedProduct, grabbedProducts } = this.state;
         let current = grabbedProducts[selectedProduct] || this.sampleListing;
-        let primary = current && current.pictures[current.primary];
         return (
             <React.Fragment>
-                <Grid container spacing={40} style={{ paddingBottom: '4vh' }}>
-                    <Grid item>
+                <Grid container spacing={24}>
+                    <Grid item sm={4}>
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="age-native-helper">Listing</InputLabel>
                             <NativeSelect
@@ -126,10 +124,9 @@ class ViewProducts extends Component {
                                         </option>
                                     ))}
                             </NativeSelect>
-                            {/* <FormHelperText>Select Listing</FormHelperText> */}
                         </FormControl>
                     </Grid>
-                    <Grid item>
+                    <Grid item sm={8}>
                         <ListingInput
                             textValues={current}
                             classes={classes}
@@ -137,20 +134,8 @@ class ViewProducts extends Component {
                             formSubmit={this.formSubmit}
                         />
                     </Grid>
-                    <Grid item>
-                        <ListingSmall
-                            onClick={() => this.setState({ cardActive: !this.state.cardActive })}
-                            classes={{
-                                media: classes.media,
-                                card: !this.state.cardActive ? classes.card : classes.cardOpen,
-                            }}
-                            picture={primary}
-                            name={current.name}
-                            description={current.description}
-                        />
-                    </Grid>
                 </Grid>
-                <Divider />
+                <Divider className={classes.divider} />
                 <Grid container style={{ paddingTop: '4vh' }}>
                     <Grid item>
                         <ListingBig product={current} classes={classes} />

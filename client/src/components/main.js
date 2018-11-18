@@ -1,103 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-// import AppBar from '@material-ui/core/AppBar';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import Nav from '../components/Nav';
 import ListingSmall from './materials/adminDashboard/AddProducts/ListingSmall';
 import ListingBig from './materials/ListingBig';
 import axios from 'axios';
-import {
-    Typography,
-    Grid,
-    CssBaseline,
-    Button,
-    Card,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemSecondaryAction,
-    IconButton,
-    Modal,
-} from '@material-ui/core';
+import { Typography, Grid, CssBaseline, Modal } from '@material-ui/core';
 import ShoppingCart from './ShoppingCart';
-
-const styles = theme => ({
-    appBar: {
-        position: 'relative',
-    },
-    icon: {
-        marginRight: theme.spacing.unit * 2,
-    },
-    heroUnit: {
-        backgroundColor: theme.palette.background.paper,
-    },
-    heroContent: {
-        maxWidth: 600,
-        margin: '0 auto',
-        padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`,
-    },
-    heroButtons: {
-        marginTop: theme.spacing.unit * 4,
-    },
-    layout: {
-        width: 'auto',
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-            width: 1100,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
-    cardGrid: {
-        padding: `${theme.spacing.unit * 8}px 0`,
-    },
-    card: {
-        height: 100,
-        width: 200,
-        overflowY: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        transition: theme.transitions.create(['width', 'height'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    cardOpen: {
-        height: 345,
-        width: 345,
-        overflowY: 'scroll',
-        transition: theme.transitions.create(['width', 'height'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    media: {
-        paddingTop: '56.25%', // 16:9,
-    },
-    mediaLarge: {
-        height: '45vh',
-        width: '45vh',
-        objectFit: 'scale-down',
-    },
-    cardContent: {
-        flexGrow: 1,
-    },
-    footer: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing.unit * 6,
-    },
-    gridListTile: {
-        borderRadius: theme.shape.borderRadius,
-        width: theme.spacing.unit * 7,
-    },
-    'gridListTile:hover': {
-        boxShadow: theme.shadows[5],
-    },
-});
+import styles from './styles/mainStyles';
 
 class Main extends Component {
     state = {

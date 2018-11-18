@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import styles from './styles/dashboardStyles';
+import styles from '../../styles/dashboardStyles';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import { IconButton, Divider, Typography, List, Toolbar, AppBar, Drawer, CssBaseline } from '@material-ui/core';
 import { ChevronLeft as ChevronLeftIcon, Menu as MenuIcon } from '@material-ui/icons';
@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
         open: false,
         isAuthenticated: true,
         anchorEl: null,
-        currentPage: 'MakeListing',
+        currentPage: 'ViewProducts',
     };
 
     handleDashBoardChange = arg => {
@@ -24,7 +24,7 @@ class Dashboard extends React.Component {
             ViewProducts: <ViewProducts />,
         };
         if (!obj[arg]) {
-            return obj.AddProducts;
+            return obj.MakeListing;
         }
         return obj[arg];
     };
@@ -65,22 +65,6 @@ class Dashboard extends React.Component {
             <React.Fragment>
                 <CssBaseline />
                 <div className={classes.root}>
-                    {/* <AppBar
-                        position="absolute"
-                        className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
-                        <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-                            <IconButton
-                                color="inherit"
-                                aria-label="Open drawer"
-                                onClick={this.handleDrawerToggle}
-                                className={classNames(classes.menuButton, this.state.open && classes.menuButtonHidden)}>
-                                <MenuIcon />
-                            </IconButton>
-                            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                                Placeholder
-                            </Typography>
-                        </Toolbar>
-                    </AppBar> */}
                     <Drawer
                         variant="permanent"
                         classes={{
@@ -118,9 +102,5 @@ class Dashboard extends React.Component {
         );
     }
 }
-
-Dashboard.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Dashboard);
