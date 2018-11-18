@@ -29,7 +29,7 @@ export class ListingBig extends Component {
             <Card raised>
                 <Grid container spacing={24} style={{ padding: '3vh' }}>
                     {/* PICTURE SECTION START */}
-                    <Grid item s={4}>
+                    <Grid item sm={4}>
                         <div style={{ marginBottom: '2vh' }} className={classes.pictureContainer}>
                             <CardMedia
                                 component="img"
@@ -39,8 +39,8 @@ export class ListingBig extends Component {
                                 title={currentPic && currentPic.name}
                             />
                         </div>
-                        {/* <Divider /> */}
-                        <GridList cellHeight={50} cols={pictures.length}>
+                        <Divider className={classes.divider} />
+                        <GridList cellHeight={50} cols={pictures.length} spacing={0}>
                             {pictures.map((e, i) => (
                                 <GridListTile key={i} onClick={() => this.setState({ selectedThumbnail: i })}>
                                     <img className={classes.gridListTile} alt={e.name} src={e.data} />
@@ -51,7 +51,7 @@ export class ListingBig extends Component {
                     {/* PICTURE SECTION END */}
 
                     {/* TEXT BODY SECTION START */}
-                    <Grid item s={8}>
+                    <Grid item sm={8}>
                         <Typography component={'div'} variant={'body2'}>
                             <Typography variant={'h5'}>{name}</Typography>
                             <p>Additional subnotes about product can go here, possibly something like on sale or etc</p>
@@ -67,7 +67,7 @@ export class ListingBig extends Component {
                                             this.setState({ quantitySelected: event.target.value })
                                         }
                                         type="number"
-                                        // className={classes.textField}
+                                        className={classes.textField}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
@@ -107,7 +107,7 @@ export class ListingBig extends Component {
                             </Grid>
                         </Typography>
                     </Grid>
-                    {/* TEXT BO DY SECTION END */}
+                    {/* TEXT BODY SECTION END */}
                 </Grid>
             </Card>
         );

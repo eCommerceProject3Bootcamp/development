@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Grid, FormControl, InputLabel, NativeSelect, Divider, Input } from '@material-ui/core';
-// import { Add } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import styles from '../../../styles/mainStyles';
